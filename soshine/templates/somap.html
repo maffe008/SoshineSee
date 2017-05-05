@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<title>设置地图显示范围</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sogis.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/somap.css' %}" />
+
+
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=NccogPfKH2hGdsARVdK7lsVvNao7Y4Hm"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/demo-option.js' %}"></script>
+    <script src="{% static 'js/demo-jquery.js' %}"></script>
+    <script src="{% static 'js/demo-blockfunc.js' %}"></script>
+    <script src="{% static 'js/demo-jquery-ui.js' %}"></script>
+
+</head>
+<body>
+	<div id="allmap"></div>
+    {% include 'OptionDiv.html' %}
+    <h1>{{ abc_id }}|{{ abc_name }}</h1>
+</body>
+</html>
+<script type="text/javascript">
+	//百度地图API功能
+	var map = new BMap.Map("allmap");
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 13);
+	map.enableScrollWheelZoom();
+	var b = new BMap.Bounds(new BMap.Point(116.027143, 39.772348),new BMap.Point(116.832025, 40.126349));
+	try {
+		BMapLib.AreaRestriction.setBounds(map, b);
+	} catch (e) {
+		alert(e);
+	}
+</script>

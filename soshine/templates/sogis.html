@@ -3,16 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>MArcGIS DEMO</title>
-
-
+    <title>SoshineSee Scene</title>
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sogis.css' %}" />
 
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
@@ -792,16 +790,16 @@
             [120.25143,36.40186], [120.40122,36.43397], [120.49908,36.13297], [120.34602,36.09826]
         ];
         var QD_Airport1 = [
-            [120.25143, 36.40186,0], [120.40122, 36.43397,0], [120.40122, 36.43397,10000], [120.25143, 36.40186,10000]
+            [120.25143, 36.40186,0], [120.40122, 36.43397,0], [120.37471, 36.26666,10000]
         ];
         var QD_Airport2 = [
-            [120.40122, 36.43397,0], [120.49908, 36.13297,0], [120.49908, 36.13297,10000], [120.40122, 36.43397,10000]
+            [120.40122, 36.43397,0], [120.49908, 36.13297,0], [120.37471, 36.26666,10000]
         ];
         var QD_Airport3 = [
-            [120.49908, 36.13297,0], [120.34602, 36.09826,0], [120.34602, 36.09826,10000], [120.49908, 36.13297,10000]
+            [120.49908, 36.13297,0], [120.37471, 36.26666,10000], [120.34602, 36.09826,0]
         ];
         var QD_Airport4 = [
-            [120.34602, 36.09826,0], [120.25143, 36.40186,0], [120.25143, 36.40186,10000], [120.34602, 36.09826,10000]
+            [120.34602, 36.09826,0], [120.37471, 36.26666,10000], [120.25143, 36.40186,0]
         ];
 
         var area_Hulbr = [[],[],[],[]];
@@ -816,17 +814,17 @@
         var DL_Airport = [
             [121.37408, 39.02745], [121.72805, 39.00277],  [121.72448, 38.90244], [121.33423, 38.93376]
         ];
-        var DL_Airport1 = [
-            [121.37408, 39.02745,0], [121.72805, 39.00277,0],  [121.72805, 39.00277,10000],[121.37408, 39.02745,10000]
+        var DL_Airport1 = [//wn-en
+            [121.37408, 39.02745,0], [121.72805, 39.00277,0],  [121.53291, 38.96847,10000]
         ];
-        var DL_Airport2 = [
-            [121.72805, 39.00277,0],  [121.72448, 38.90244,0],  [121.72448, 38.90244,10000],[121.72805, 39.00277,10000]
+        var DL_Airport2 = [//en-es
+            [121.72805, 39.00277,0],  [121.53291, 38.96847,10000], [121.72448, 38.90244,0]
         ];
-        var DL_Airport3 = [
-           [121.72448, 38.90244,0], [121.33423, 38.93376,0],[121.33423, 38.93376,10000],[121.72448, 38.90244,10000]
+        var DL_Airport3 = [//es-ws
+          [121.53291, 38.96847,10000],[121.72448, 38.90244,0], [121.33423, 38.93376,0]
         ];
-        var DL_Airport4 = [
-            [121.37408, 39.02745,0], [121.33423, 38.93376,0],[121.33423, 38.93376,10000],[121.37408, 39.02745,10000]
+        var DL_Airport4 = [//wn-ws
+            [121.37408, 39.02745,0], [121.33423, 38.93376,0],[121.53291, 38.96847,10000]
         ];
         var DL_jinpu = [
             [122.0714, 39.17684 ],[122.16326, 39.15423],[122.04496, 39.10461],[ 122.07068, 39.0647],[122.01312,39.07882],
@@ -978,26 +976,30 @@
 
         mainView.ui.add(bgExpand, "top-right");
 
-        on(dojo.query("#Demo_Area_Boluo"), "click", function() {
+        on(dojo.query("#Demo_Area_Boluo_loc"), "click", function() {
             mainView.goTo({position: [114.197,23.0752,2000], heading: 0, tilt: 70});
             add_polygon_area(area_BL);
         });
 
-        on(dojo.query("#Demo_Area_Zhangjk"), "click", function() {
+        on(dojo.query("#Demo_Area_Zhangjk_loc"), "click", function() {
             mainView.goTo({position: [114.92863,40.7802,2000], heading: 0, tilt: 70});
             add_polygon_area(area_ZJK);
         });
-        on(dojo.query("#Demo_Area_Zhaoguang"), "click", function() {
+        on(dojo.query("#Demo_Area_Zhaoguang_loc"), "click", function() {
             mainView.goTo({position: [126.927,46.4672,50000], heading: 0, tilt: 70});
             add_polygon_area(area_ZG);
         });
-        on(dojo.query("#Demo_Area_Xinjiang"), "click", function() {
+        on(dojo.query("#Demo_Area_Xinjiang_loc"), "click", function() {
             mainView.goTo({position: [87.3060,43.8646,2000], heading: 0, tilt: 70});
             add_polygon_area(area_XJ);
         });
-        on(dojo.query("#Demo_Area_Qingdao"), "click", function() {
+        on(dojo.query("#Demo_Area_Qingdao_loc"), "click", function() {
             mainView.goTo({position: [ 120.46459, 35.65695,20000], heading: 0, tilt: 70});
-            //add_polygon_area(area_XJ);
+            //add_polygon_area(area_QD);
+        });
+        on(dojo.query("#Demo_Area_Chongqing_loc"), "click", function() {
+            mainView.goTo({position: [ 106.54648, 29.25846,5000], heading: 0, tilt: 70});
+            //add_polygon_area(area_CQ);
         });
 
 
@@ -1136,7 +1138,7 @@
             show_comprt_info('C03');
         });
 
-        on(dojo.query("#Demo_Area_Hulbr"), "click", function() {
+        on(dojo.query("#Demo_Area_Hulbr_loc"), "click", function() {
             mainView.goTo({position: [ 119.76421, 48.698,20000], heading: 0, tilt: 70});
             add_polygon_area(area_Hulbr);
         });
@@ -1213,7 +1215,7 @@
 
 
         //***************dalian************Jinpu**************
-        on(dojo.query("#Demo_Area_Dalian"), "click", function() {
+        on(dojo.query("#Demo_Area_Dalian_loc"), "click", function() {
             mainView.goTo({position: [121.45423, 38.54076,20000], heading: 0, tilt: 70});
         });
 
