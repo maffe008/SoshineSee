@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!-- saved from url=(0027)http://www.soshinetech.com/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<title>首欣（北京）科技有限公司</title>
+    {% load static %}
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="shortcut icon" href="http://www.soshinetech.com/favicon.ico">
+</head>
+<body style=" font-family: 微软雅黑;">
+	<header class="container" style="position: relative;">
+		<div class="row" style="position: absolute; width: 100%;  padding-top: 1rem">
+			<div class="col-xs-6">
+				<img src="/static/img/soshinetechbg/logo.png" alt="" height="">
+			</div>
+			<div class="col-xs-6">
+				<div class="row" style="color: #FFF; font-weight: 600; margin-top: 2rem;">
+					<div class="col-xs-2"><span style="cursor: pointer;">解决方案</span></div>
+                    {% if hasuser %}
+                    <div class="col-xs-2"><span style="cursor: pointer;">{{domain}}案例</span></div>
+                    <div class="col-xs-4"><span style="cursor: pointer;">{{clientname}}</span></div>
+                    <div class="col-xs-2"><span style="cursor: pointer;"><a class="btn btn-warning btn-xs" href="{% url 'soshine:sogis' %}">启动系统</a></span></div>
+                    <div class="col-xs-2"><span style="cursor: pointer;"><a class="btn btn-danger btn-xs" href="{% url 'account:logout' %}">退出登录</a></span></div>
+                    {% else %}
+                    <div class="col-xs-2"><span style="cursor: pointer;">应用案例</span></div>
+                    <div class="col-xs-2"><span style="cursor: pointer;">关于我们</span></div>
+                    <div class="col-xs-2"><span style="cursor: pointer;">人才招募</span></div>
+                    <div class="col-xs-2"><span style="cursor: pointer;"><a class="btn btn-info btn-xs"  href="{% url 'account:register' %}">用户注册</a></span></div>
+                    <div class="col-xs-2"><span style="cursor: pointer;"><a class="btn btn-success btn-xs"  href="{% url 'account:login' %}">用户登录</a></span></div>
+                    {% endif %}
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="container-fluid">
+		<div class="row">
+			<img src="/static/img/soshinetechbg/bg-1.jpg" alt="专注遥感数据服务，引领精准农林管理。采集、处理、存储、分析、呈现。" class="img-responsive">
+			<img src="/static/img/soshinetechbg/bg-2.jpg" alt="我们的航空勘测服务。Our Aerial Survey Service。首欣科技航测解决方案通过成熟工业级无人机平台融合专业性多波段遥感设备，为农林种植管理者提供全面、及时、高效、精准的数据服务。" class="img-responsive">
+			<img src="/static/img/soshinetechbg/bg-3.jpg" alt="我们的工作流程。" class="img-responsive">
+			<img src="/static/img/soshinetechbg/bg-4.jpg" alt="主要特点。" class="img-responsive">
+			<img src="/static/img/soshinetechbg/bg-5.jpg" alt="数据分析库。" class="img-responsive">
+			<img src="/static/img/soshinetechbg/bg-6.jpg" alt="我们友好的用户界面。" class="img-responsive">
+		</div>
+	</div>
+
+	<footer style="margin-top: 5rem; margin-bottom: 1rem" class="container">
+		<div class="row">
+			<div class="col-xs-12 text-center">版权所有 © 首欣（北京）科技有限公司   京ICP备15055253号-1</div>
+		</div>
+	</footer>
+
+</body></html>
+
+    <br>
+    <a href="http://127.0.0.1:8000/account/logout/">退出</a>

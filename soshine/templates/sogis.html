@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>MArcGIS DEMO</title>
+
+
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/demo-option.js' %}"></script>
+    <script src="{% static 'js/demo-jquery.js' %}"></script>
+    <script src="{% static 'js/demo-blockfunc.js' %}"></script>
+    <script src="{% static 'js/demo-jquery-ui.js' %}"></script>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.3/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.3/"></script>
+
+    <script type="text/javascript">
+    require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/views/MapView",
+
+        "esri/Graphic",
+        "esri/geometry/Point",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/geometry/Polyline",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/geometry/Polygon",
+        "esri/symbols/SimpleFillSymbol",
+
+        "esri/symbols/PointSymbol3D",
+        "esri/symbols/ObjectSymbol3DLayer",
+        "esri/symbols/WebStyleSymbol",
+
+        "esri/core/watchUtils",
+        "esri/widgets/Expand",
+        "esri/widgets/BasemapGallery",
+
+        "dojo/dom",
+        "dojo/query",
+        "dojo/on",
+        "dojo/promise/all",
+        "dojo/domReady!"
+
+    ], function (Map, SceneView, MapView,
+                 Graphic, Point, SimpleMarkerSymbol, Polyline, SimpleLineSymbol, Polygon, SimpleFillSymbol,
+                 PointSymbol3D,ObjectSymbol3DLayer,WebStyleSymbol,
+                 watchUtils, Expand, BasemapGallery,
+                 dom, query, on, all)
+    {
+
+        // Create a Map with a basemap, to be used with in the main view
+        var mainMap = new Map({
+            basemap: "hybrid",
+            ground: "world-elevation"
+        });
+
+        // Create another Map, to be used in the overview "view"
+        var overviewMap = new Map({
+            basemap: "streets"
+        });
+
+        // Create the SceneView
+        var mainView = new SceneView({
+            container: "viewDiv",
+            map: mainMap,
+            camera: {
+                position: {
+                    x: 107,
+                    y: 21,
+                    z: 9000000
+                },
+                tilt: 10,
+                heading: 0
+            }
+
+        });
+
+
+        // 1-1.Create a point
+        var areapoint_BL = new Point(
+                {longitude: 114.1970, latitude: 23.1257}
+        );
+        var areapoint_ZJK = new Point(
+                {longitude: 114.92658, latitude: 40.81462}
+        );
+        var areapoint_ZG = new Point(
+                {longitude: 126.72743, latitude: 48.05202}
+        );
+        var areapoint_XJ = new Point(
+                {longitude: 87.30802, latitude: 43.90181}
+        );
+        var areapoint_Hulbr = new Point(
+                {longitude: 119.75307, latitude: 49.20679 }
+        );
+        var areapoint_QD = new Point(
+                {longitude: 120.32627, latitude: 36.07038 }
+        );
+        var areapoint_DL = new Point(
+                {longitude:  121.55627, latitude: 38.89792 }
+        );
+
+        // 1-2.Create a symbol for drawing the point
+        var markerSymbol = new SimpleMarkerSymbol({
+            color: [226, 119, 40],
+            outline: {
+                color: [255, 255, 255],
+                width: 1
+            }
+        });
+
+        /*
+        *
+        *
+        *
+        *
+        * */
+        function add_ill_tree(lng,lat){
+            var tp = new Point({longitude: lng, latitude: lat});
+            var webStyleSymbol_ill = new WebStyleSymbol({
+                name: "Other",
+                portal: {
+                url: "https://www.arcgis.com"
+                },
+                styleName: "EsriRealisticTreesStyle"
+            });
+            var sur = Math.round(Math.random()*3000)/100;
+            var attr_tree = {
+                lng: lng,
+                lat: lat,
+                survive: sur
+            };
+            // Create pop-up template
+            var popupTemp_tree = {
+                title: "病树位置",
+                content: "<h5>经度：<b>{lng}</b></h5>" +
+                "<h5>纬度：<b>{lat}</b></h5>" +
+                "<h5>健康度：<b>{survive}%</b></h5>"
+            };
+            var ptGra = new Graphic({
+                geometry: tp,
+                symbol: webStyleSymbol_ill,
+                attributes: attr_tree,
+                popupTemplate: popupTemp_tree
+            });
+            mainView.graphics.add(ptGra);
+
+        }
+
+
+
+
+
+        // Create attributes
+        var attr_BL = {
+            Area: "博罗县罗阳镇",
+            Hectare: "8920公顷",
+            Info: "农林用地8920公顷，有林面积8533公顷，种植率97.5%，绿化率80.8%，覆盖率45.1%。" +
+            "完成天然林管护和生态公益林改造，其中，实施林管护面积2500亩、生态公益林改造面积2500亩、" +
+            "育林木苗5.5万株、义务植树5.5万株。粮食种植面积2.8万亩，农作物播种面积6.69万亩。"
+        };
+        var attr_ZJK = {
+            Area: "张家口市",
+            Hectare: "250万公顷",
+            Info: "耕地932203.72公顷，园地143925.11公顷，林地1101076.65公顷，草地242304.05公顷，其它农用地80427.44公顷"
+        };
+        var attr_ZG = {
+            Area: "赵光农场",
+            Hectare: "46.39万公顷",
+            Info: "耕地面积28400公顷，草原面积6070公顷，林地面积3000公顷，水面700公顷。" +
+            "人口3万人，11个农业管理区，配套农机具2000余台，农机总动力5.5万千瓦，田间综合机械化程度95%以上"
+        };
+        var attr_XJ = {
+            Area: "新疆生产建设兵团",
+            Hectare: "745.63万公顷",
+            Info: "2012年统计，农用土总面积419.86万公顷，" +
+            "其中耕地104.31万公顷，园地6.52万公顷，林地44.39万公顷，牧草地242.65万公顷，" +
+            "建设用地21.05万公顷，未利用地304.72万公顷，其他农用地21.99万公顷"
+        };
+        var attr_Hulbr = {
+            Area: "呼伦贝尔农垦",
+            Hectare: "300万公顷",
+            Info: "呼伦贝尔农垦集团拥有众多特色和优势：" +
+            "一、资源丰富，有施业区面积3万平方公里，" +
+            "分布在呼伦贝尔9个旗市区境内，拥有600万亩耕地、1000万亩草场、40万亩林地、13万亩水面；" +
+            "二、规模大，辖24个县团级现代化农牧场和27个企事业单位，总人口17万，其中各类从业人员7.4万；" +
+            "三、组织化程度高，企业实行准军事化管理模式，是全国仅有的规模化、集约化垦区之一；" +
+            "四、农牧业机械装备能力强，采用世界最先进的大型农机设备为主，总动力74.2万千瓦，田间农业综合机械化水平达95%；" +
+            "五、科技实力雄厚，有各类专业技术人员4263人，农业科技贡献率71.38%，处于全国领先水平；" +
+            "六、区位优越，生态良好，适宜打造绿色有机农产品基地。"
+        };
+        var attr_QD = {
+            Area: "青岛市林业局",
+            Hectare: "5万公顷",
+            Info: "崂山区20.88万亩、崂山林场3.45万亩、城阳区4.89万亩、黄岛区25.62万亩、即墨市22.16万亩"
+        };
+        var attr_DL = {
+            Area: "大连市林业有害生物防治检疫局",
+            Hectare: "4.3万公顷",
+            Info: "金普新区（约14.83万亩）、主城区（约3.78万亩）、甘井子区（约13.84万亩）、" +
+            "高新技术园区（约8.17万亩）、旅顺口区（约17.39万亩）、长海县（约6.98万亩）"
+        };
+
+
+        // Create pop-up template
+        var popupTemp_BL = {
+            title: "{Area}",
+            content: "<h3>林地面积：<b>{Hectare}</b></h3>"+
+                    "相关信息：<p>{Info}</p>"
+        };
+        var popupTemp_ZJK = {
+            title: "{Area}",
+            content: "<h3>农用地面积：<b>{Hectare}</b></h3>"+
+                    "相关信息：<p>{Info}</p>"
+        };
+        var popupTemp_ZG = {
+            title: "{Area}",
+            content: "<h3>土地面积：<b>{Hectare}</b></h3>"+
+                    "相关信息：<p>{Info}</p>"
+        };
+        var popupTemp_XJ = {
+            title: "{Area}",
+            content: "<h3>土地面积：<b>{Hectare}</b></h3>"+
+                    "相关信息：<p>{Info}</p>"
+        };
+        var popupTemp_Hulbr = {
+            title: "{Area}",
+            content: "<h3>土地面积：<b>{Hectare}</b></h3>"+
+                    "相关信息：<p>{Info}</p>"
+        };
+        var popupTemp_QD = {
+            title: "{Area}",
+            content: "<h3>需作业面积：<b>{Hectare}</b></h3>"+
+                    "相关信息：<p>{Info}</p>"
+        };
+        var popupTemp_DL = {
+            title: "{Area}",
+            content: "<h3>需作业面积：<b>{Hectare}</b></h3>"+
+                    "相关信息：<p>{Info}</p>"
+        };
+
+        // 1-3.Create a graphic and add the geometry and symbol to it
+        var pointGraphic_BL = new Graphic({
+            geometry: areapoint_BL,
+            symbol: markerSymbol,
+            attributes: attr_BL,
+            popupTemplate: popupTemp_BL
+        });
+        var pointGraphic_ZJK = new Graphic({
+            geometry: areapoint_ZJK,
+            symbol: markerSymbol,
+            attributes: attr_ZJK,
+            popupTemplate: popupTemp_ZJK
+        });
+        var pointGraphic_ZG = new Graphic({
+            geometry: areapoint_ZG,
+            symbol: markerSymbol,
+            attributes: attr_ZG,
+            popupTemplate: popupTemp_ZG
+        });
+        var pointGraphic_XJ = new Graphic({
+            geometry: areapoint_XJ,
+            symbol: markerSymbol,
+            attributes: attr_XJ,
+            popupTemplate: popupTemp_XJ
+        });
+        var pointGraphic_Hulbr = new Graphic({
+            geometry: areapoint_Hulbr,
+            symbol: markerSymbol,
+            attributes: attr_Hulbr,
+            popupTemplate: popupTemp_Hulbr
+        });
+        var pointGraphic_QD = new Graphic({
+            geometry: areapoint_QD,
+            symbol: markerSymbol,
+            attributes: attr_QD,
+            popupTemplate: popupTemp_QD
+        });
+        var pointGraphic_DL = new Graphic({
+            geometry: areapoint_DL,
+            symbol: markerSymbol,
+            attributes: attr_DL,
+            popupTemplate: popupTemp_DL
+        });
+
+        // 1-4.Add the graphic to the view
+        mainView.graphics.add(pointGraphic_BL);
+        mainView.graphics.add(pointGraphic_ZJK);
+        mainView.graphics.add(pointGraphic_ZG);
+        mainView.graphics.add(pointGraphic_XJ);
+        mainView.graphics.add(pointGraphic_Hulbr);
+        mainView.graphics.add(pointGraphic_QD);
+        mainView.graphics.add(pointGraphic_DL);
+
+        /*
+            Area Outline
+         */
+
+        // 3-1.Create a polygon geometry
+        var BL_N = 23.130875645889883;
+        var BL_S = 23.121166927809885;
+        var BL_E = 114.20237471986587;
+        var BL_W = 114.19187761906588;
+        var area_BL = [[BL_W, BL_N],[BL_E, BL_N], [BL_E, BL_S],[BL_W, BL_S]];
+
+        var A_BL_W = 114.19187761906588,A_BL_E = 114.19893,A_BL_N = 23.130875645889883,A_BL_S = 23.12645;
+        var A_lng_diff = A_BL_E - A_BL_W;
+        var A_lng1 = A_BL_W;
+        var A_lng2 = A_BL_W + A_lng_diff/4;
+        var A_lng3 = A_BL_W + A_lng_diff/2;
+        var A_lng4 = A_BL_E - A_lng_diff/4;
+        var A_lng5 = A_BL_E;
+        var A_lat_diff = A_BL_N - A_BL_S;
+        var A_lat1 = A_BL_N;
+        var A_lat2 = A_BL_N - A_lat_diff/3;
+        var A_lat3 = A_BL_S + A_lat_diff/3;
+        var A_lat4 = A_BL_S;
+        var p_BL_A =[
+            [(A_lng2+A_lng3)/2,(A_lat2+A_lat3)/2],
+            [A_lng1,A_lat1],[A_lng2,A_lat1],[A_lng3,A_lat1],[A_lng4,A_lat1],
+            [A_lng5,A_lat1],[A_lng1,A_lat2],[A_lng2,A_lat2],[A_lng3,A_lat2],
+            [A_lng4,A_lat2],[A_lng5,A_lat2],[A_lng1,A_lat3],[A_lng2,A_lat3],
+            [A_lng3,A_lat3],[A_lng1,A_lat4],[A_lng2,A_lat4],[A_lng5,A_lat4]
+        ];
+        var block_BL_A = [[A_lng1,A_lat1],[A_lng5,A_lat1] , [A_lng4,A_lat2],[A_lng3,A_lat2] ,[A_lng2,A_lat3] ,[A_lng1,A_lat4]];
+        var Comprt_BL_A =[
+            [p_BL_A[1],p_BL_A[2],p_BL_A[7],p_BL_A[6]],
+            [p_BL_A[2],p_BL_A[3],p_BL_A[8],p_BL_A[7]],
+            [p_BL_A[3],p_BL_A[4],p_BL_A[9],p_BL_A[8]],
+            [p_BL_A[4],p_BL_A[5],p_BL_A[9]],
+            [p_BL_A[6],p_BL_A[7],p_BL_A[12],p_BL_A[11]],
+            [p_BL_A[7],p_BL_A[8],p_BL_A[12]],
+            [p_BL_A[11],p_BL_A[12],p_BL_A[14]]
+        ];
+
+        var B_BL_W = 114.19814,B_BL_E = 114.20238,B_BL_N = 23.12593 ,B_BL_S = 23.12119;
+        var B_lng_diff = B_BL_E - B_BL_W;
+        var B_lng1 = B_BL_W;
+        var B_lng2 = B_BL_W + B_lng_diff/2;
+        var B_lng3 = B_BL_E;
+        var B_lat_diff = B_BL_N - B_BL_S;
+        var B_lat1 = B_BL_N;
+        var B_lat2 = B_BL_N - B_lat_diff/3;
+        var B_lat3 = B_BL_S + B_lat_diff/3;
+        var B_lat4 = B_BL_S;
+
+		var p_BL_B =[
+			[],
+			[B_lng1,B_lat1],[B_lng2,B_lat1],[B_lng3,B_lat1],[B_lng1,B_lat2],
+			[B_lng2,B_lat2],[B_lng3,B_lat2],[B_lng1,B_lat3],[B_lng2,B_lat3],
+			[B_lng3,B_lat3],[B_lng1,B_lat4],[B_lng2,B_lat4],[B_lng3,B_lat4]
+		];
+        var block_BL_B = [[B_lng1,B_lat2],[B_lng2,B_lat2],[B_lng2,B_lat1],[B_lng3,B_lat1],[B_lng3,B_lat4],[B_lng1,B_lat4]];
+		var Comprt_BL_B =[
+			[p_BL_B[2],p_BL_B[3],p_BL_B[6],p_BL_B[5]],
+			[p_BL_B[4],p_BL_B[5],p_BL_B[8],p_BL_B[7]],
+			[p_BL_B[5],p_BL_B[6],p_BL_B[9],p_BL_B[8]],
+			[p_BL_B[7],p_BL_B[8],p_BL_B[11],p_BL_B[10]],
+			[p_BL_B[8],p_BL_B[9],p_BL_B[12],p_BL_B[11]]
+		];
+
+
+        var C_BL_W = 114.19444,C_BL_E = 114.1969,C_BL_N = 23.12557 ,C_BL_S = 23.12121;
+        var C_lng1 = C_BL_W;
+        var C_lng2 = C_BL_E;
+        var C_lat_diff = C_BL_N - C_BL_S;
+        var C_lat1 = C_BL_N;
+        var C_lat2 = C_BL_N - C_lat_diff/3;
+        var C_lat3 = C_BL_S + C_lat_diff/3;
+        var C_lat4 = C_BL_S;
+        var block_BL_C = [[C_BL_W, C_BL_N],[C_BL_E, C_BL_N], [C_BL_E, C_BL_S],[C_BL_W, C_BL_S]];
+		var p_BL_C =[
+			[],
+			[C_lng1,C_lat1],[C_lng2,C_lat1],[C_lng1,C_lat2],[C_lng2,C_lat2],
+			[C_lng1,C_lat3],[C_lng2,C_lat3],[C_lng1,C_lat4],[C_lng2,C_lat4]
+		];
+		var Comprt_BL_C =[
+			[p_BL_C[1],p_BL_C[2],p_BL_C[4],p_BL_C[3]],
+			[p_BL_C[3],p_BL_C[4],p_BL_C[6],p_BL_C[5]],
+			[p_BL_C[5],p_BL_C[6],p_BL_C[8],p_BL_C[7]]
+		];
+
+        var area_ZJK=[
+                    [114.91556, 40.83407], [114.9206, 40.82907], [114.93481, 40.82892], [114.9395, 40.81355],
+                    [114.93997, 40.80289], [114.93163, 40.79631], [114.91875, 40.80021], [114.91501,40.80003]
+                ];
+        var p_ZJK_A =[
+            [126.8969, 48.0806 ],//marker coordinate
+            [114.9272, 40.82804],[114.92915, 40.82825],[ 114.92839, 40.82753 ],[ 114.92603, 40.8269],//4
+            [114.93104, 40.82845],[114.92908, 40.82599],[114.92571, 40.82519],[114.929, 40.82898],//8
+            [114.93463, 40.82889],[114.9324, 40.828]
+        ];
+        var block_ZJK_A = [ [114.9272, 40.82804],[114.92915, 40.82825],[114.929, 40.82898],[114.93463, 40.82889],
+            [114.9324, 40.828],[114.93104, 40.82845],[114.92908, 40.82599],[114.92571, 40.82519],[ 114.92603, 40.8269]];
+        var Comprt_ZJK_A = [
+            [p_ZJK_A[8],p_ZJK_A[9],p_ZJK_A[10],p_ZJK_A[5],p_ZJK_A[2]],
+			[p_ZJK_A[2],p_ZJK_A[5],p_ZJK_A[10],p_ZJK_A[6],p_ZJK_A[3]],
+            [p_ZJK_A[4],p_ZJK_A[3],p_ZJK_A[6],p_ZJK_A[7]],
+            [p_ZJK_A[1],p_ZJK_A[2],p_ZJK_A[3],p_ZJK_A[4]]
+        ];
+
+        var area_ZG =[[126.26, 48.12], [127.6, 48.12], [127.6, 47.54], [126.26,47.54]];
+        var p_ZG_A =[
+            [126.8969, 48.0806 ],//marker coordinate
+            [126.88798, 48.09334],[126.89705, 48.08987],[126.91361, 48.08336 ],[126.90547, 48.0781],//4
+            [126.90072, 48.071 ],[126.89507, 48.07082],[126.88173, 48.07056],[126.87876, 48.08402],//8
+            [126.8867, 48.08545],[126.88931, 48.08438],[126.89092, 48.08386],[126.88134, 48.07228],//12
+            [126.90848, 48.07911],[126.88794, 48.08742]//14
+        ];
+        var block_ZG_A = [p_ZG_A[1],p_ZG_A[2],p_ZG_A[3],p_ZG_A[13],p_ZG_A[4],p_ZG_A[5],p_ZG_A[6],
+            p_ZG_A[7],p_ZG_A[12],p_ZG_A[8],p_ZG_A[10],p_ZG_A[9],p_ZG_A[14]];
+        var Comprt_ZG_A = [
+            [p_ZG_A[1],p_ZG_A[2],p_ZG_A[11],p_ZG_A[10],p_ZG_A[9],p_ZG_A[14]],
+            [p_ZG_A[2],p_ZG_A[3],p_ZG_A[13],p_ZG_A[4],p_ZG_A[11]],
+            [p_ZG_A[8],p_ZG_A[10],p_ZG_A[12]],
+            [p_ZG_A[10],p_ZG_A[11],p_ZG_A[6],p_ZG_A[7],p_ZG_A[12]],
+            [p_ZG_A[11],p_ZG_A[4],p_ZG_A[5],p_ZG_A[6]]
+        ];
+        var p_ZG_B =[
+            [ 126.44993, 48.04765 ],//marker coordinate
+            [ 126.44237, 48.04807],[ 126.44554, 48.0487],[126.45015, 48.0501 ],[ 126.45559, 48.05147 ],//4
+            [ 126.44235, 48.04651],[ 126.44607, 48.04612],[126.45114, 48.04537],[126.45737, 48.04428]
+        ];
+        var block_ZG_B = [p_ZG_B[1],p_ZG_B[2],p_ZG_B[3],p_ZG_B[4],p_ZG_B[8],p_ZG_B[7],p_ZG_B[6],p_ZG_B[5]];
+        var Comprt_ZG_B = [
+            [p_ZG_B[1],p_ZG_B[2],p_ZG_B[6],p_ZG_B[5]],
+            [p_ZG_B[2],p_ZG_B[3],p_ZG_B[7],p_ZG_B[6]],
+            [p_ZG_B[3],p_ZG_B[4],p_ZG_B[8],p_ZG_B[7]]
+        ];
+
+		var area_XJ =[[87.30045, 43.92108],[87.32227, 43.91261],[87.30791, 43.88506],[87.30213, 43.88718]];
+        var p_XJ_A =[
+            [],//marker coordinate
+            [87.30196, 43.90481],[87.30434, 43.90483],[87.3019, 43.90048],[87.30982, 43.904251],//4
+            [87.31095, 43.90375],[87.30879, 43.8999],[87.31384, 43.90316],[87.3119, 43.8996],[ 87.30158, 43.90432]
+        ];
+        var block_XJ_A = [p_XJ_A[1],p_XJ_A[2],p_XJ_A[4],p_XJ_A[5],p_XJ_A[7],p_XJ_A[8],p_XJ_A[6],p_XJ_A[3],p_XJ_A[9]];
+        var Comprt_XJ_A = [
+            [p_XJ_A[1],p_XJ_A[2],p_XJ_A[3],p_XJ_A[9]],
+            [p_XJ_A[2],p_XJ_A[4],p_XJ_A[5],p_XJ_A[6],p_XJ_A[3]],
+            [p_XJ_A[5],p_XJ_A[7],p_XJ_A[8],p_XJ_A[6]]
+        ];
+
+        var egbl = [[114.19984, 23.12434],[114.19984, 23.12205],[114.20219, 23.12205],[114.20219, 23.12434]];
+
+        // 3-2.Create a symbol for rendering the graphic
+        // 3-3.Add the geometry and symbol to a new graphic
+
+        // 3-4.Add the graphic to the view
+        function add_polygon_area(cur_area){
+            var fillSymbol_area = new SimpleFillSymbol({
+                color: [255, 127, 36, 0.5],
+                outline: {
+                    color: [255, 255, 255],
+                    width: 1
+                }
+            });
+            var temp_polygon_area = new Polygon({
+                rings: [cur_area]
+            });
+            var temp_polygonGraphic_area = new Graphic({
+                geometry: temp_polygon_area,
+                symbol: fillSymbol_area
+            });
+            mainView.graphics.removeAll();
+            mainView.graphics.add(temp_polygonGraphic_area);
+        }
+
+        function add_polygon_block(cur_block){
+            var fillSymbol_block = new SimpleFillSymbol({
+                color: [0, 191, 255, 0.2],
+                outline: {
+                    color: [65, 105, 225],
+                    width: 2
+                }
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block
+            });
+            mainView.graphics.removeAll();
+            mainView.graphics.add(temp_polygonGraphic_block);
+        }
+       function add_polygon_block_noclear(cur_block){
+            var fillSymbol_block = new SimpleFillSymbol({
+                color: [0, 191, 255, 0.2],
+                outline: {
+                    color: [65, 105, 225],
+                    width: 2
+                }
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block
+            });
+            mainView.graphics.add(temp_polygonGraphic_block);
+        }
+        function add_polygon_block_nocolor(cur_block){
+            var fillSymbol_block_nocolor = new SimpleFillSymbol({
+                color: [0, 0, 0, 0],
+                outline: {
+                    color: [65, 105, 225],
+                    width: 2
+                }
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block_nocolor
+            });
+            mainView.graphics.removeAll();
+            mainView.graphics.add(temp_polygonGraphic_block);
+        }
+        function add_polygon_block_warn(cur_block){
+            var fillSymbol_block_warn = new SimpleFillSymbol({
+                color: [255, 0, 0, 0.5],
+                outline: {
+                    color: [255, 0, 0],
+                    width: 5
+                }
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block_warn
+            });
+
+            mainView.graphics.add(temp_polygonGraphic_block);
+        }
+        function add_polygon_block_500(cur_block){
+            var fillSymbol_block_warn = new SimpleFillSymbol({
+                color: [255, 255, 0, 0.5],
+                outline: {
+                    color: [255, 255, 0],
+                    width: 3
+                }
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block_warn
+            });
+
+            mainView.graphics.add(temp_polygonGraphic_block);
+        }
+        function add_polygon_block_800(cur_block){
+            var fillSymbol_block_warn = new SimpleFillSymbol({
+                color: [255,130,71, 0.5],
+                outline: {
+                    color: [255,130,71],
+                    width: 3
+                }
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block_warn
+            });
+
+            mainView.graphics.add(temp_polygonGraphic_block);
+        }
+        function add_polygon_comprt(cur_block,cur_comprt,area,block,comprt){
+            var fillSymbol_comprt = new SimpleFillSymbol({
+                color: [0, 255, 127, 0.2],
+                outline: {
+                    color: [0, 255, 127],
+                    width: 1
+                }
+            });
+            var fillSymbol_block = new SimpleFillSymbol({
+                color: [0, 0, 0, 0],
+                outline: {
+                    color: [65, 105, 225],
+                    width: 2
+                }
+            });
+            var temp_polygon_comprt = new Polygon({
+                rings: [cur_comprt]
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var trees = Math.round(Math.random()*1000)+1500;
+            var ill_trees = Math.round(Math.random()*100);
+            var pertemp = Math.round((ill_trees/trees)*100)/100;
+            var nwp = cur_comprt[0],sep = cur_comprt[2];
+            //alert(nwp+"|"+nwp[0]+","+nwp[1]);
+            var attr_Comprt = {
+                Area: area,
+                Block: block,
+                Comprt: comprt,
+                Tree_name: "棕榈树",
+                Tree_count: trees,
+                Ill_Tree_count: ill_trees,
+                ILL_percent: pertemp+"%",
+                north:Math.round(nwp[1]*10000)/10000,
+                south:Math.round(sep[1]*10000)/10000,
+                west:Math.round(nwp[0]*10000)/10000,
+                east:Math.round(sep[0]*10000)/10000
+            };
+
+            var popupTemp_Comprt = {
+                title: "{Area}地块{Block}区域{Comprt}",
+                content: "<h5>树种：{Tree_name}</h5>" +
+                "<h5>总数：{Tree_count}</h5>" +
+                "<h5>病数：{Ill_Tree_count}</h5>" +
+                "<h5>比例：{ILL_percent}</h5>" +
+                "<h5>经度范围：{west} —— {east}</h5>" +
+                "<h5>纬度范围：{south} —— {north}</h5>"
+            };
+            var temp_polygonGraphic_comprt = new Graphic({
+                geometry: temp_polygon_comprt,
+                symbol: fillSymbol_comprt,
+                attributes: attr_Comprt,
+                popupTemplate: popupTemp_Comprt
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block
+            });
+            mainView.graphics.removeAll();
+            mainView.graphics.add(temp_polygonGraphic_block);
+            mainView.graphics.add(temp_polygonGraphic_comprt);
+        }
+
+
+        function add_polygon_comprt_eg(cur_block,cur_comprt,area,block,comprt){
+            var fillSymbol_comprt = new SimpleFillSymbol({
+                color: [0, 255, 127, 0.2],
+                outline: {
+                    color: [0, 255, 127],
+                    width: 1
+                }
+            });
+            var fillSymbol_block = new SimpleFillSymbol({
+                color: [0, 0, 0, 0],
+                outline: {
+                    color: [65, 105, 225],
+                    width: 2
+                }
+            });
+            var temp_polygon_comprt = new Polygon({
+                rings: [cur_comprt]
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var trees = Math.round(Math.random()*1000)+1500;
+            var ill_trees = Math.round(Math.random()*100);
+            var pertemp = Math.round((ill_trees/trees)*100)/100;
+            var nwp = cur_comprt[0],sep = cur_comprt[2];
+            //alert(nwp+"|"+nwp[0]+","+nwp[1]);
+            var attr_Comprt = {
+                Area: area,
+                Block: block,
+                Comprt: comprt,
+                Tree_name: "棕榈树",
+                Tree_count: trees,
+                Ill_Tree_count: ill_trees,
+                ILL_percent: pertemp+"%",
+                north:Math.round(nwp[1]*10000)/10000,
+                south:Math.round(sep[1]*10000)/10000,
+                west:Math.round(nwp[0]*10000)/10000,
+                east:Math.round(sep[0]*10000)/10000
+            };
+            var w4 = ' width="150"';
+            var w1 = ' width="40"';
+            var popupTemp_Comprt = {
+                title: "{Area}地块{Block}区域{Comprt}",
+                content: "<h5>树种：{Tree_name}</h5>" +
+                "<h5>总数：{Tree_count}</h5>" +
+                "<h5>病数：{Ill_Tree_count}</h5>" +
+                "<h5>比例：{ILL_percent}</h5>" +
+                "<h5>经度范围：{west} —— {east}</h5>" +
+                "<h5>纬度范围：{south} —— {north}</h5>" +
+				"<table><tr><td"+w1+">Fid</td><td"+w4+">经度</td><td"+w4+">纬度</td><td"+w1+">健康度</td></tr>" +
+                "<tr><td>1</td><td>114.20167</td><td>23.12316</td><td>17%</td></tr>" +
+                "<tr><td>2</td><td>114.20154</td><td>23.12317</td><td>10%</td></tr>" +
+                "<tr><td>3</td><td>114.20139</td><td>23.12308</td><td>11%</td></tr>" +
+                "<tr><td>4</td><td>114.20134</td><td>23.12311</td><td>5%</td></tr>" +
+                "<tr><td>5</td><td>114.20076</td><td>23.12319</td><td>5%</td></tr>" +
+                "<tr><td>6</td><td>114.20009</td><td>23.12334</td><td>0%</td></tr>" +
+                "<tr><td>7</td><td>114.19998</td><td>23.12339</td><td>1%</td></tr>" +
+                "<tr><td>8</td><td>114.20186</td><td>23.12354</td><td>0%</td></tr>" +
+                "<tr><td>9</td><td>114.20075</td><td>23.12297</td><td>3%</td></tr>" +
+                "<tr><td>10</td><td>114.20071</td><td>23.12284</td><td>14%</td></tr>" +
+                "<tr><td>11</td><td>114.20014</td><td>23.12313</td><td>13%</td></tr>" +
+                "<tr><td>12</td><td>114.20147</td><td>23.12393</td><td>9%</td></tr>" +
+                "<tr><td>13</td><td>114.20024</td><td>23.12403</td><td>8%</td></tr> </table>"
+            };
+            var temp_polygonGraphic_comprt = new Graphic({
+                geometry: temp_polygon_comprt,
+                symbol: fillSymbol_comprt,
+                attributes: attr_Comprt,
+                popupTemplate: popupTemp_Comprt
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block
+            });
+            mainView.graphics.removeAll();
+            mainView.graphics.add(temp_polygonGraphic_block);
+            mainView.graphics.add(temp_polygonGraphic_comprt);
+        }
+
+
+
+        var QD_laoshan = [
+            [120.565922,36.328220], [120.652012,36.297070], [120.623926,36.270324], [120.678302,36.230180],
+            [120.717293,36.139106], [120.499229,36.087006], [120.480369,36.108011], [120.510335,36.208761],
+            [120.483712,36.215844], [120.508592,36.253570], [120.562989,36.257270], [120.580168,36.290823],
+            [120.567139,36.315697]
+        ];
+        var QD_laoshanlinchang = [
+            [120.481798,36.161822], [120.492994,36.149485], [120.483914,36.148843], [120.474717,36.154014],
+            [120.463439,36.150021], [120.459831,36.145471], [120.446345,36.142356], [120.435689,36.142255],
+            [120.436728,36.147851], [120.452208,36.156489], [120.478809,36.162677]
+        ];
+        var QD_chengyang = [
+            [120.530542,36.332246], [120.566961,36.320066], [120.577101,36.304014], [120.579894,36.289140],
+            [120.570940,36.272302], [120.572867,36.268659], [120.562584,36.257172], [120.507384,36.252938],
+            [120.483943,36.214915], [120.464236,36.200724], [120.453082,36.200411], [120.424209,36.219106]
+        ];
+        var QD_huangdao = [
+            [120.056561,36.066085], [120.147052,36.053939], [120.146143,35.942874], [120.098020,35.904076],
+            [120.057500,35.897578], [120.012352,35.922923], [119.918050,35.872870], [120.023144,35.784238],
+            [120.008639,35.712475], [119.854512,35.827448], [119.732199,35.757106], [119.835380,35.952406]
+        ];
+        var QD_jimo = [
+            [120.520617,36.389900], [120.737238,36.520746], [120.842141,36.608768], [120.981388,36.545572],
+            [120.875527,36.369782], [120.801856,36.498880], [120.689530,36.378612], [120.741810,36.328399],
+            [120.556402,36.327058]
+        ];
+
+
+        var QD_laoshan500 = [
+            [120.565922,36.328220,500], [120.652012,36.297070,500], [120.623926,36.270324,500], [120.678302,36.230180,500],
+            [120.717293,36.139106,500], [120.499229,36.087006,500], [120.480369,36.108011,500], [120.510335,36.208761,500],
+            [120.483712,36.215844,500], [120.508592,36.253570,500], [120.562989,36.257270,500], [120.580168,36.290823,500],
+            [120.567139,36.315697,500]
+        ];
+        var QD_laoshan600 = [
+            [120.565922,36.328220,600], [120.652012,36.297070,600], [120.623926,36.270324,600], [120.678302,36.230180,600],
+            [120.717293,36.139106,600], [120.499229,36.087006,600], [120.480369,36.108011,600], [120.510335,36.208761,600],
+            [120.483712,36.215844,600], [120.508592,36.253570,600], [120.562989,36.257270,600], [120.580168,36.290823,600],
+            [120.567139,36.315697,600]
+        ];
+        var QD_huangdao650 = [
+            [120.056561,36.066085,650], [120.147052,36.053939,650], [120.146143,35.942874,650], [120.098020,35.904076,650],
+            [120.057500,35.897578,650], [120.012352,35.922923,650], [119.918050,35.872870,650], [120.023144,35.784238,650],
+            [120.008639,35.712475,650], [119.854512,35.827448,650], [119.732199,35.757106,650], [119.835380,35.952406,650]
+        ];
+        var QD_laoshan800 = [
+            [120.565922,36.328220,800], [120.652012,36.297070,800], [120.623926,36.270324,800], [120.678302,36.230180,800],
+            [120.717293,36.139106,800], [120.499229,36.087006,800], [120.480369,36.108011,800], [120.510335,36.208761,800],
+            [120.483712,36.215844,800], [120.508592,36.253570,800], [120.562989,36.257270,800], [120.580168,36.290823,800],
+            [120.567139,36.315697,800]
+        ];
+        var QD_huangdao800 = [
+            [120.056561,36.066085,800], [120.147052,36.053939,800], [120.146143,35.942874,800], [120.098020,35.904076,800],
+            [120.057500,35.897578,800], [120.012352,35.922923,800], [119.918050,35.872870,800], [120.023144,35.784238,800],
+            [120.008639,35.712475,800], [119.854512,35.827448,800], [119.732199,35.757106,800], [119.835380,35.952406,800]
+        ];
+
+
+        var QD_Airport = [
+            [120.25143,36.40186], [120.40122,36.43397], [120.49908,36.13297], [120.34602,36.09826]
+        ];
+        var QD_Airport1 = [
+            [120.25143, 36.40186,0], [120.40122, 36.43397,0], [120.40122, 36.43397,10000], [120.25143, 36.40186,10000]
+        ];
+        var QD_Airport2 = [
+            [120.40122, 36.43397,0], [120.49908, 36.13297,0], [120.49908, 36.13297,10000], [120.40122, 36.43397,10000]
+        ];
+        var QD_Airport3 = [
+            [120.49908, 36.13297,0], [120.34602, 36.09826,0], [120.34602, 36.09826,10000], [120.49908, 36.13297,10000]
+        ];
+        var QD_Airport4 = [
+            [120.34602, 36.09826,0], [120.25143, 36.40186,0], [120.25143, 36.40186,10000], [120.34602, 36.09826,10000]
+        ];
+
+        var area_Hulbr = [[],[],[],[]];
+        var Hulbr_A = [[ 119.97408, 49.17459],[120.00475, 49.17413],[120.00112, 49.15657],[ 119.97302, 49.16003]];
+        var Hulbr_B = [
+            [119.63182, 49.37831],[119.66089, 49.38212],[119.66009, 49.38741],[ 119.69207, 49.38984 ],
+            [ 119.69843, 49.3657],[119.70175, 49.36576],[119.70366, 49.35665],[119.69965, 49.35658],
+            [119.69974, 49.35361], [119.67302, 49.35187],[ 119.67284, 49.35004],[ 119.63957, 49.34895]
+        ];
+
+
+        var DL_Airport = [
+            [121.37408, 39.02745], [121.72805, 39.00277],  [121.72448, 38.90244], [121.33423, 38.93376]
+        ];
+        var DL_Airport1 = [
+            [121.37408, 39.02745,0], [121.72805, 39.00277,0],  [121.72805, 39.00277,10000],[121.37408, 39.02745,10000]
+        ];
+        var DL_Airport2 = [
+            [121.72805, 39.00277,0],  [121.72448, 38.90244,0],  [121.72448, 38.90244,10000],[121.72805, 39.00277,10000]
+        ];
+        var DL_Airport3 = [
+           [121.72448, 38.90244,0], [121.33423, 38.93376,0],[121.33423, 38.93376,10000],[121.72448, 38.90244,10000]
+        ];
+        var DL_Airport4 = [
+            [121.37408, 39.02745,0], [121.33423, 38.93376,0],[121.33423, 38.93376,10000],[121.37408, 39.02745,10000]
+        ];
+        var DL_jinpu = [
+            [122.0714, 39.17684 ],[122.16326, 39.15423],[122.04496, 39.10461],[ 122.07068, 39.0647],[122.01312,39.07882],
+            [121.96199, 39.02956],[121.9047, 39.07652 ],[121.78779, 39.06699],[121.73733, 39.09053],[121.5829, 39.18489],
+            [121.5819, 39.28072 ],[121.72509, 39.32587],[121.61138, 39.37139],[121.64076, 39.51001],[121.8398, 39.56408],
+            [122.08595, 39.42333],[122.08512, 39.32369],[121.94032, 39.35212],[121.93396, 39.35276],[121.9141, 39.12478]
+        ];
+        var DL_jinpu500 = [
+            [122.0714, 39.17684 ,500],[122.16326, 39.15423,500],[122.04496, 39.10461,500],[ 122.07068, 39.0647,500],[122.01312,39.07882,500],
+            [121.96199, 39.02956,500],[121.9047, 39.07652 ,500],[121.78779, 39.06699,500],[121.73733, 39.09053,500],[121.5829, 39.18489,500],
+            [121.5819, 39.28072 ,500],[121.72509, 39.32587,500],[121.61138, 39.37139,500],[121.64076, 39.51001,500],[121.8398, 39.56408,500],
+            [122.08595, 39.42333,500],[122.08512, 39.32369,500],[121.94032, 39.35212,500],[121.93396, 39.35276,500],[121.9141, 39.12478,500]
+        ];
+        var DL_jinpu800 = [
+            [122.0714, 39.17684 ,800],[122.16326, 39.15423,800],[122.04496, 39.10461,800],[ 122.07068, 39.0647,800],[122.01312,39.07882,800],
+            [121.96199, 39.02956,800],[121.9047, 39.07652 ,800],[121.78779, 39.06699,800],[121.73733, 39.09053,800],[121.5829, 39.18489,800],
+            [121.5819, 39.28072 ,800],[121.72509, 39.32587,800],[121.61138, 39.37139,800],[121.64076, 39.51001,800],[121.8398, 39.56408,800],
+            [122.08595, 39.42333,800],[122.08512, 39.32369,800],[121.94032, 39.35212,800],[121.93396, 39.35276,800],[121.9141, 39.12478,800]
+        ];
+        var DL_Maincity = [
+            [ 121.54001, 38.91778], [ 121.55491, 38.91047],[ 121.57849, 38.89392],[121.59362, 38.89567],[121.62699, 38.9081],
+            [121.70242, 38.91248],[121.71669, 38.90483], [121.70352, 38.86839], [121.65529, 38.86077], [121.61184, 38.86381],
+            [121.58828, 38.87472], [121.56226, 38.88612], [ 121.53847, 38.88843]
+        ];
+        var DL_Maincity500 = [
+            [ 121.54001, 38.91778,500], [ 121.55491, 38.91047,500],[ 121.57849, 38.89392,500],[121.59362, 38.89567,500],[121.62699, 38.9081,500],
+            [121.70242, 38.91248,500],[121.71669, 38.90483,500], [121.70352, 38.86839,500], [121.65529, 38.86077,500], [121.61184, 38.86381,500],
+            [121.58828, 38.87472,500], [121.56226, 38.88612,500], [ 121.53847, 38.88843,500]
+        ];
+        var DL_Ganjingzi = [
+            [121.49311, 38.98192],[121.64181, 39.03475],[121.64198, 39.08063],[121.54291, 39.05495],[121.46589, 39.02092],
+            [121.43704, 38.98168],[121.34789, 38.93934],[121.37591, 38.9275],[121.38355, 38.90403],[121.42984, 38.8971],
+            [121.44543, 38.8782],[121.48707, 38.87658],[121.52763, 38.88815],[121.53762, 38.89507],[121.54162, 38.93799],
+            [121.47734, 38.9586]
+        ];
+        var DL_Ganjingzi500 = [
+            [121.49311, 38.98192,500],[121.64181, 39.03475,500],[121.64198, 39.08063,500],[121.54291, 39.05495,500],[121.46589, 39.02092,500],
+            [121.43704, 38.98168,500],[121.34789, 38.93934,500],[121.37591, 38.9275,500],[121.38355, 38.90403,500],[121.42984, 38.8971,500],
+            [121.44543, 38.8782,500],[121.48707, 38.87658,500],[121.52763, 38.88815,500],[121.53762, 38.89507,500],[121.54162, 38.93799,500],
+            [121.47734, 38.9586,500]
+        ];
+        var DL_Gaoxin = [
+            [121.348096,38.939181],[121.376349,38.927147],[121.383649,38.903476],[121.430303,38.896856],[121.445723,38.878174],
+            [121.487207,38.876542],[121.513698,38.874559],[121.502312,38.841429],[121.473530,38.818085],[121.424064,38.810555],
+            [121.336182,38.822852],[121.315105,38.900416]
+        ];
+        var DL_Gaoxin500 = [
+            [121.348096,38.939181,500],[121.376349,38.927147,500],[121.383649,38.903476,500],[121.430303,38.896856,500],[121.445723,38.878174,500],
+            [121.487207,38.876542,500],[121.513698,38.874559,500],[121.502312,38.841429,500],[121.473530,38.818085,500],[121.424064,38.810555,500],
+            [121.336182,38.822852,500],[121.315105,38.900416,500]
+        ];
+        var DL_Lvshunkou = [
+            [121.338019,38.821489],[121.301945,38.893443],[121.196617,38.910221],[121.151128,38.961505],[121.101594,38.939992],
+            [121.081764,38.897012],[121.111902,38.837338],[121.107481,38.775740],[121.131441,38.725927],[121.197012,38.720888],
+            [121.254927,38.791928]
+        ];
+        var DL_Lvshunkou500 = [
+            [121.338019,38.821489,500],[121.301945,38.893443,500],[121.196617,38.910221,500],[121.151128,38.961505,500],[121.101594,38.939992,500],
+            [121.081764,38.897012,500],[121.111902,38.837338,500],[121.107481,38.775740,500],[121.131441,38.725927,500],[121.197012,38.720888,500],
+            [121.254927,38.791928,500]
+        ];
+        var DL_Changhai = [
+             [123.06228, 39.62349], [123.27227, 39.01569], [122.73478, 38.9971],  [122.24994, 39.164], [122.2811, 39.20866]
+        ];
+        var DL_Changhai1 = [
+            [122.534947,39.317433],[122.286992,39.207481],[122.317062,39.136253],[122.840495,39.224880],[122.632548,39.302451]
+        ];
+        var DL_Changhai2 = [
+             [122.70472, 39.0249], [122.693467,39.052120],[122.810760,39.090087],[122.891766,39.069438],[122.877886,39.042673],
+            [122.763318,39.004781],[122.72544, 39.01228]
+        ];
+        var DL_Changhai3 = [
+            [122.970926,39.575475],[122.919113,39.517977],[123.087304,39.408682],[123.127643,39.526319]
+        ];
+        var DL_Changhai4 = [
+            [123.13316, 39.08793],  [123.18322, 39.10889], [123.22481, 39.03771],  [123.13881, 39.02288]
+        ];
+
+        mainView.then(function() {
+
+        });
+
+        // Create the MapView for overview map
+        var mapView = new MapView({
+            container: "overviewDiv",
+            map: overviewMap
+        });
+
+        // Remove the default widgets
+        mapView.ui.components = [];
+
+        var extentDiv = dom.byId("extentDiv");
+
+        mapView.then(function() {
+            // Update the overview extent whenever the MapView or SceneView extent changes
+            mainView.watch("extent", updateOverviewExtent);
+            mapView.watch("extent", updateOverviewExtent);
+
+            // Update the minimap overview when the main view becomes stationary
+            watchUtils.when(mainView, "stationary", updateOverview);
+
+            function updateOverview() {
+                // Animate the MapView to a zoomed-out scale so we get a nice overview.
+                // We use the "progress" call back of the goTo promise to update
+                // the overview extent while animating
+                mapView.goTo({
+                    center: mainView.center,
+                    scale: mainView.scale * 2 * Math.max(mainView.width /
+                        mapView.width,
+                        mainView.height / mapView.height)
+                });
+            }
+
+            function updateOverviewExtent() {
+                // Update the overview extent by converting the SceneView extent to the
+                // MapView screen coordinates and updating the extentDiv position.
+                var extent = mainView.extent;
+
+                var bottomLeft = mapView.toScreen(extent.xmin, extent.ymin);
+                var topRight = mapView.toScreen(extent.xmax, extent.ymax);
+
+                extentDiv.style.top = topRight.y + "px";
+                extentDiv.style.left = bottomLeft.x + "px";
+
+                extentDiv.style.height = (bottomLeft.y - topRight.y) + "px";
+                extentDiv.style.width = (topRight.x - bottomLeft.x) + "px";
+            }
+        });
+        // Create a BasemapGallery widget instance and set
+        // its container to a div element
+
+        var basemapGallery = new BasemapGallery({
+            view: mainView,
+            container: document.createElement("div")
+        });
+
+        // Create an Expand instance and set the content
+        // property to the DOM node of the basemap gallery widget
+        // Use an Esri icon font to represent the content inside
+        // of the Expand widget
+
+        var bgExpand = new Expand({
+            view: mainView,
+            content: basemapGallery.domNode,
+            expandIconClass: "esri-icon-basemap"
+        });
+
+        // Add the expand instance to the ui
+
+        mainView.ui.add(bgExpand, "top-right");
+
+        on(dojo.query("#Demo_Area_Boluo"), "click", function() {
+            mainView.goTo({position: [114.197,23.0752,2000], heading: 0, tilt: 70});
+            add_polygon_area(area_BL);
+        });
+
+        on(dojo.query("#Demo_Area_Zhangjk"), "click", function() {
+            mainView.goTo({position: [114.92863,40.7802,2000], heading: 0, tilt: 70});
+            add_polygon_area(area_ZJK);
+        });
+        on(dojo.query("#Demo_Area_Zhaoguang"), "click", function() {
+            mainView.goTo({position: [126.927,46.4672,50000], heading: 0, tilt: 70});
+            add_polygon_area(area_ZG);
+        });
+        on(dojo.query("#Demo_Area_Xinjiang"), "click", function() {
+            mainView.goTo({position: [87.3060,43.8646,2000], heading: 0, tilt: 70});
+            add_polygon_area(area_XJ);
+        });
+        on(dojo.query("#Demo_Area_Qingdao"), "click", function() {
+            mainView.goTo({position: [ 120.46459, 35.65695,20000], heading: 0, tilt: 70});
+            //add_polygon_area(area_XJ);
+        });
+
+
+		on(dojo.query("#Demo_Area_Boluo_A_outline"), "click", function() {
+            mainView.goTo({position: [114.19452, 23.12866,1500], heading: 0, tilt: 0});
+            add_polygon_block(block_BL_A);
+        });
+        on(dojo.query("#Demo_Area_Boluo_B_outline"), "click", function() {
+            mainView.goTo({position: [114.20026, 23.12347,1500], heading: 0, tilt: 0});
+            add_polygon_block(block_BL_B);
+        });
+        on(dojo.query("#Demo_Area_Boluo_C_outline"), "click", function() {
+            mainView.goTo({position: [114.19575, 23.12343,1500], heading: 0, tilt: 0});
+            add_polygon_block(block_BL_C);
+        });
+		on(dojo.query("#Demo_Area_Boluo_A"), "click", function() {
+            add_polygon_block_nocolor(block_BL_A);
+        });
+        on(dojo.query("#Demo_Area_Boluo_B"), "click", function() {
+            add_polygon_block_nocolor(block_BL_B);
+        });
+        on(dojo.query("#Demo_Area_Boluo_C"), "click", function() {
+            add_polygon_block_nocolor(block_BL_C);
+        });
+
+        on(dojo.query("#Demo_Comprt_Boluo_A_01_loc"), "click", function() {
+            add_polygon_comprt(block_BL_A,Comprt_BL_A[0],"博罗县罗阳镇","A","01");
+            add_ill_tree(114.19243, 23.12973);
+            add_ill_tree(114.19294, 23.12972);
+            add_ill_tree(114.19349, 23.13043);
+            show_comprt_info('A01');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_A_02_loc"), "click", function() {
+            add_polygon_comprt(block_BL_A,Comprt_BL_A[1],"博罗县罗阳镇","A","02");
+            add_ill_tree(114.19428,  23.12964);
+            add_ill_tree(114.19405,  23.13031);
+            show_comprt_info('A02');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_A_03_loc"), "click", function() {
+            add_polygon_comprt(block_BL_A,Comprt_BL_A[2],"博罗县罗阳镇","A","03");
+			add_ill_tree(114.19585,  23.13047);
+			add_ill_tree(114.19656,  23.13022);
+			add_ill_tree(114.19612,  23.12977);
+            show_comprt_info('A03');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_A_04_loc"), "click", function() {
+            add_polygon_comprt(block_BL_A,Comprt_BL_A[3],"博罗县罗阳镇","A","04");
+			add_ill_tree(114.19735,  23.13074);
+            show_comprt_info('A04');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_A_05_loc"), "click", function() {
+            add_polygon_comprt(block_BL_A,Comprt_BL_A[4],"博罗县罗阳镇","A","05");
+			add_ill_tree(114.19344,  23.12913);
+			add_ill_tree(114.19253,  23.12913);
+			add_ill_tree(114.19277,  23.12864);
+			add_ill_tree(114.19324,  23.12834);
+			add_ill_tree(114.19217,  23.12826);
+			add_ill_tree(114.19354,  23.12935);
+            show_comprt_info('A05');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_A_06_loc"), "click", function() {
+            add_polygon_comprt(block_BL_A,Comprt_BL_A[5],"博罗县罗阳镇","A","06");
+			add_ill_tree(114.19468,  23.12914);
+			add_ill_tree(114.19388,  23.12919);
+            show_comprt_info('A06');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_A_07_loc"), "click", function() {
+            add_polygon_comprt(block_BL_A,Comprt_BL_A[6],"博罗县罗阳镇","A","07");
+			add_ill_tree(114.19211,  23.12766);
+			add_ill_tree(114.19272,  23.12741);
+			add_ill_tree(114.19217,  23.12694);
+            show_comprt_info('A07');
+        });
+
+        on(dojo.query("#Demo_Comprt_Boluo_B_01_loc"), "click", function() {
+            add_polygon_comprt(block_BL_B,Comprt_BL_B[0],"博罗县罗阳镇","B","01");
+            add_ill_tree(114.20111, 23.12543);
+            add_ill_tree(114.20189, 23.12455);
+            show_comprt_info('B01');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_B_02_loc"), "click", function() {
+            add_polygon_comprt(block_BL_B,Comprt_BL_B[1],"博罗县罗阳镇","B","02");
+            add_ill_tree(114.19921, 23.12353);
+            add_ill_tree(114.19951, 23.12318);
+            show_comprt_info('B02');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_B_03_loc"), "click", function() {
+            add_polygon_comprt(block_BL_B,Comprt_BL_B[2],"博罗县罗阳镇","B","03");
+            add_ill_tree(114.20127, 23.12309);
+            show_comprt_info('B03');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_B_04_loc"), "click", function() {
+            add_polygon_comprt(block_BL_B,Comprt_BL_B[3],"博罗县罗阳镇","B","04");
+            add_ill_tree(114.19909, 23.12211);
+            add_ill_tree(114.19931, 23.12213);
+            add_ill_tree(114.19942, 23.12189);
+            add_ill_tree(114.19937, 23.12167);
+            add_ill_tree(114.19983, 23.12165);
+            show_comprt_info('B04');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_B_05_loc"), "click", function() {
+            add_polygon_comprt_eg(block_BL_B,egbl,"博罗县罗阳镇","B","05");
+            add_ill_tree( 114.20167, 23.12316);
+            add_ill_tree( 114.20154, 23.12317);
+            add_ill_tree( 114.20139, 23.12308);
+            add_ill_tree( 114.20134, 23.12311);
+            add_ill_tree( 114.20076, 23.12319);
+            add_ill_tree( 114.20009, 23.12334);
+            add_ill_tree( 114.19998, 23.12339);
+            add_ill_tree( 114.20186, 23.12354);
+            add_ill_tree( 114.20075, 23.12297);
+            add_ill_tree( 114.20071, 23.12284);
+            add_ill_tree( 114.20014, 23.12313);
+            add_ill_tree( 114.20147, 23.12393);
+            add_ill_tree( 114.20024, 23.12403);
+
+            show_comprt_info('B05');
+        });
+
+        on(dojo.query("#Demo_Comprt_Boluo_C_01_loc"), "click", function() {
+            add_polygon_comprt(block_BL_C,Comprt_BL_C[0],"博罗县罗阳镇","C","01");
+            add_ill_tree(114.19511, 23.12484 );
+            add_ill_tree(114.19561, 23.12524);
+            show_comprt_info('C01');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_C_02_loc"), "click", function() {
+            add_polygon_comprt(block_BL_C,Comprt_BL_C[1],"博罗县罗阳镇","C","02");
+            add_ill_tree(114.19605, 23.12344);
+            add_ill_tree(114.19626, 23.1234);
+            add_ill_tree(114.19649, 23.1233);
+            show_comprt_info('C02');
+        });
+        on(dojo.query("#Demo_Comprt_Boluo_C_03_loc"), "click", function() {
+            add_polygon_comprt(block_BL_C,Comprt_BL_C[2],"博罗县罗阳镇","C","03");
+            add_ill_tree(114.19534, 23.122180);
+            show_comprt_info('C03');
+        });
+
+        on(dojo.query("#Demo_Area_Hulbr"), "click", function() {
+            mainView.goTo({position: [ 119.76421, 48.698,20000], heading: 0, tilt: 70});
+            add_polygon_area(area_Hulbr);
+        });
+        on(dojo.query("#Demo_Area_Hulbr_A_outline"), "click", function() {
+            mainView.goTo({position: [120.00231, 49.166,10000], heading: 0, tilt: 0});
+            add_polygon_block(Hulbr_A);
+        });
+        on(dojo.query("#Demo_Area_Hulbr_B_outline"), "click", function() {
+            mainView.goTo({position: [119.66502, 49.36744,10000], heading: 0, tilt: 0});
+            add_polygon_block(Hulbr_B);
+        });
+
+
+
+        on(dojo.query("#Demo_Area_Qingdao_A_outline"), "click", function() {
+            mainView.goTo({position: [120.565922,36.328220,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_laoshan);
+            add_polygon_block_warn(QD_Airport);
+            add_polygon_block_warn(QD_Airport1);
+            add_polygon_block_warn(QD_Airport2);
+            add_polygon_block_warn(QD_Airport3);
+            add_polygon_block_warn(QD_Airport4);
+
+        });
+        on(dojo.query("#Demo_Comprt_Qingdao_A_00_loc"), "click", function() {
+            mainView.goTo({position: [120.565922,36.328220,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_laoshan);
+            add_polygon_block_500(QD_laoshan600);
+        });
+        on(dojo.query("#Demo_Comprt_Qingdao_A_01_loc"), "click", function() {
+            mainView.goTo({position: [120.565922,36.328220,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_laoshan);
+            add_polygon_block_500(QD_laoshan600);
+            add_polygon_block_800(QD_laoshan800);
+        });
+
+
+
+        on(dojo.query("#Demo_Area_Qingdao_B_outline"), "click", function() {
+            mainView.goTo({position: [120.481798,36.161822,10000], heading: 0, tilt: 0});
+            add_polygon_block(QD_laoshanlinchang);
+        });
+        on(dojo.query("#Demo_Area_Qingdao_C_outline"), "click", function() {
+            mainView.goTo({position: [120.530542,36.332246,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_chengyang);
+            add_polygon_block_warn(QD_Airport);
+            add_polygon_block_warn(QD_Airport1);
+            add_polygon_block_warn(QD_Airport2);
+            add_polygon_block_warn(QD_Airport3);
+            add_polygon_block_warn(QD_Airport4);
+        });
+
+        on(dojo.query("#Demo_Area_Qingdao_D_outline"), "click", function() {
+            mainView.goTo({position: [120.056561,36.066085,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_huangdao);
+        });
+        on(dojo.query("#Demo_Comprt_Qingdao_D_00_loc"), "click", function() {
+            mainView.goTo({position: [120.056561,36.066085,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_huangdao);
+            add_polygon_block_500(QD_huangdao650);
+        });
+        on(dojo.query("#Demo_Comprt_Qingdao_D_01_loc"), "click", function() {
+            mainView.goTo({position: [120.056561,36.066085,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_huangdao);
+            add_polygon_block_500(QD_huangdao650);
+            add_polygon_block_800(QD_huangdao800);
+        });
+
+
+        on(dojo.query("#Demo_Area_Qingdao_E_outline"), "click", function() {
+            mainView.goTo({position: [120.520617,36.389900,100000], heading: 0, tilt: 0});
+            add_polygon_block(QD_jimo);
+        });
+
+
+        //***************dalian************Jinpu**************
+        on(dojo.query("#Demo_Area_Dalian"), "click", function() {
+            mainView.goTo({position: [121.45423, 38.54076,20000], heading: 0, tilt: 70});
+        });
+
+
+        on(dojo.query("#Demo_Comprt_Dalian_P_01_alt"), "click", function() {
+            mainView.goTo({position: [121.45423, 38.54076,20000], heading: 0, tilt: 70});
+            add_polygon_block_warn(DL_Airport);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_P_02_alt"), "click", function() {
+            mainView.goTo({position: [121.45423, 38.54076,20000], heading: 0, tilt: 70});
+            add_polygon_block_warn(DL_Airport);
+            add_polygon_block_warn(DL_Airport1);
+            add_polygon_block_warn(DL_Airport2);
+            add_polygon_block_warn(DL_Airport3);
+            add_polygon_block_warn(DL_Airport4);
+        });
+
+
+        on(dojo.query("#Demo_Area_Dalian_A_outline"), "click", function() {
+            mainView.goTo({position: [121.7816, 39.09946,100000], heading: 0, tilt: 0});
+            add_polygon_block(DL_jinpu);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_A_01_alt"), "click", function() {
+            mainView.goTo({position: [121.7816, 39.09946,100000], heading: 0, tilt: 0});
+            add_polygon_block_500(DL_jinpu500);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_A_02_alt"), "click", function() {
+            mainView.goTo({position: [121.7816, 39.09946,100000], heading: 0, tilt: 0});
+            add_polygon_block_500(DL_jinpu500);
+            add_polygon_block_800(DL_jinpu800);
+        });
+
+        on(dojo.query("#Demo_Area_Dalian_B_outline"), "click", function() {
+            mainView.goTo({position: [121.6452, 38.88914,50000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Maincity);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_B_01_alt"), "click", function() {
+            mainView.goTo({position: [121.6452, 38.88914,100000], heading: 0, tilt: 0});
+            add_polygon_block_500(DL_Maincity500);
+        });
+        on(dojo.query("#Demo_Area_Dalian_C_outline"), "click", function() {
+            mainView.goTo({position: [ 121.46645, 38.96023,100000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Ganjingzi);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_C_01_alt"), "click", function() {
+            mainView.goTo({position: [121.46645, 38.96023,100000], heading: 0, tilt: 0});
+            add_polygon_block_500(DL_Ganjingzi500);
+        });
+        on(dojo.query("#Demo_Area_Dalian_D_outline"), "click", function() {
+            mainView.goTo({position: [ 121.50132, 38.86352,100000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Gaoxin);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_D_01_alt"), "click", function() {
+            mainView.goTo({position: [ 121.50132, 38.86352,100000], heading: 0, tilt: 0});
+            add_polygon_block_500(DL_Gaoxin500);
+        });
+        on(dojo.query("#Demo_Area_Dalian_E_outline"), "click", function() {
+            mainView.goTo({position: [ 121.23174, 38.863496,100000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Lvshunkou);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_E_01_alt"), "click", function() {
+            mainView.goTo({position: [121.23174, 38.863496,100000], heading: 0, tilt: 0});
+            add_polygon_block_500(DL_Lvshunkou500);
+        });
+        on(dojo.query("#Demo_Area_Dalian_F_outline"), "click", function() {
+            mainView.goTo({position: [122.89325, 39.27759,200000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Changhai);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_F_01_alt"), "click", function() {
+            mainView.goTo({position: [122.533, 39.2214,50000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Changhai1);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_F_02_alt"), "click", function() {
+            mainView.goTo({position: [122.78334, 39.04506,20000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Changhai2);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_F_03_alt"), "click", function() {
+            mainView.goTo({position: [123.0367, 39.49498,40000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Changhai3);
+        });
+        on(dojo.query("#Demo_Comprt_Dalian_F_04_alt"), "click", function() {
+            mainView.goTo({position: [123.17197, 39.05912,20000], heading: 0, tilt: 0});
+            add_polygon_block(DL_Changhai4);
+        });
+
+
+        //add_polygon_block
+        on(dojo.query("#Demo_Area_Zhangjk_A_outline"), "click", function() {
+            mainView.goTo({position: [114.92974, 40.82734,2000], heading: 0, tilt: 0});
+            add_polygon_block(block_ZJK_A);
+        });
+		on(dojo.query("#Demo_Area_Zhangjk_A"), "click", function() {
+            add_polygon_block_nocolor(block_ZJK_A);
+        });
+        on(dojo.query("#Demo_Comprt_Zhangjk_A_01_loc"), "click", function() {
+            add_polygon_comprt(block_ZJK_A,Comprt_ZJK_A[0]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhangjk_A_02_loc"), "click", function() {
+            add_polygon_comprt(block_ZJK_A,Comprt_ZJK_A[1]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhangjk_A_03_loc"), "click", function() {
+            add_polygon_comprt(block_ZJK_A,Comprt_ZJK_A[2]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhangjk_A_04_loc"), "click", function() {
+            add_polygon_comprt(block_ZJK_A,Comprt_ZJK_A[3]);
+        });
+
+
+        on(dojo.query("#Demo_Area_Zhaoguang_A_outline"), "click", function() {
+            add_polygon_block(block_ZG_A);
+            mainView.goTo({position: [126.89554, 48.0807,4000], heading: 0, tilt: 0});
+        });
+		on(dojo.query("#Demo_Area_Zhaoguang_A"), "click", function() {
+            add_polygon_block_nocolor(block_ZG_A);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_A_01_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_A,Comprt_ZG_A[0]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_A_02_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_A,Comprt_ZG_A[1]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_A_03_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_A,Comprt_ZG_A[2]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_A_04_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_A,Comprt_ZG_A[3]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_A_05_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_A,Comprt_ZG_A[4]);
+        });
+
+        on(dojo.query("#Demo_Area_Zhaoguang_B_outline"), "click", function() {
+            add_polygon_block(block_ZG_B);
+            mainView.goTo({position: [126.45159, 48.04779,4000], heading: 0, tilt: 0});
+        });
+		on(dojo.query("#Demo_Area_Zhaoguang_B"), "click", function() {
+            add_polygon_block_nocolor(block_ZG_B);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_B_01_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_B,Comprt_ZG_B[0]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_B_02_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_B,Comprt_ZG_B[1]);
+        });
+        on(dojo.query("#Demo_Comprt_Zhaoguang_B_03_loc"), "click", function() {
+            add_polygon_comprt(block_ZG_B,Comprt_ZG_B[2]);
+        });
+
+        on(dojo.query("#Demo_Area_Xinjiang_A_outline"), "click", function() {
+            add_polygon_block(block_XJ_A);
+            mainView.goTo({position: [87.3060,43.9026,2000], heading: 0, tilt: 0});
+        });
+		on(dojo.query("#Demo_Area_Xinjiang_A"), "click", function() {
+            add_polygon_block_nocolor(block_XJ_A);
+        });
+        on(dojo.query("#Demo_Comprt_Xinjiang_A_01_loc"), "click", function() {
+            add_polygon_comprt(block_XJ_A,Comprt_XJ_A[0]);
+        });
+        on(dojo.query("#Demo_Comprt_Xinjiang_A_02_loc"), "click", function() {
+            add_polygon_comprt(block_XJ_A,Comprt_XJ_A[1]);
+        });
+        on(dojo.query("#Demo_Comprt_Xinjiang_A_03_loc"), "click", function() {
+            add_polygon_comprt(block_XJ_A,Comprt_XJ_A[2]);
+        });
+
+        mainView.on('click', function(evt){
+           if(evt.mapPoint){
+               var x = Math.round(evt.mapPoint.longitude * 100000)/100000;
+               var y = Math.round(evt.mapPoint.latitude * 100000)/100000;
+               var z = Math.round(evt.mapPoint.z * 100)/100;
+               document.getElementById("curcordDiv").innerHTML = '鼠标单击位置：经纬度 [' + x + ', ' + y + '], 海拔' + z + 'm';
+           }
+        });
+
+        istoGround = false;
+        on(dojo.query("#toGround"), "click", updateElevation);
+
+        function updateElevation(ev) {
+
+          // Turn ground layers visibility on/off
+          mainMap.ground.layers.forEach(function(layer) {
+            layer.visible = istoGround;
+              if(!istoGround){
+                  istoGround = true;
+              }else if(istoGround){
+                  istoGround = false;
+              }else{
+                  istoGround = undefined
+              }
+          });
+        }
+
+    });
+
+    </script>
+
+</head>
+
+<body>
+    <div id="viewDiv">
+    </div>
+    {% include 'OptionDiv.html' %}
+    <div id="curcordDiv">
+        <p>鼠标单击位置：经纬度( ---.----, ---.---- ), 海拔---.--m</p>
+    </div>
+    <div id="overviewDiv">
+        <div id="extentDiv"></div>
+    </div>
+    {% include 'LIstDiv.html' %}
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <
+    <title>登录页面</title>
+</head>
+<body>
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-md-12 column">
+      <div class="row clearfix">
+        <div class="col-md-2 column">
+        </div>
+        <div class="col-md-8 column">
+          <div class="jumbotron" id="index">
+            <h1 class="text-center" style="margin-bottom: 40px">
+              SoshineSee
+            </h1>
+            <div class="row clearfix">
+              <div class="col-md-4 column" id="index_left">
+                <h3>登录页面：</h3>
+                <form method = 'post' enctype="multipart/form-data">
+                    {{uf.as_p}}
+                    <input type="submit" value = "ok" />
+                </form>
+                <br>
+                <a href="http://127.0.0.1:8000/account/register/">注册新账户</a>
+              </div>
+              <div class="col-md-8 column" id="index_right">
+                <div class="carousel slide" id="carousel-index">
+                  <ol class="carousel-indicators">
+                    <li class="active" data-slide-to="0" data-target="#carousel-index">
+                    </li>
+                    <li data-slide-to="1" data-target="#carousel-index">
+                    </li>
+                    <li data-slide-to="2" data-target="#carousel-index">
+                    </li>
+                  </ol>
+                  <div class="carousel-inner">
+                    <div class="item active">
+                      <img src="/static/img/soshinetechbg/indexpic1.png" alt="">
+                      <div class="carousel-caption">
+                        <div class="index-slide-text">
+                          <h3 >无人机高精图像采集</h3>
+                          <h3>业界独家——三相机</h3>
+                          <h3>可见光+红外+多光谱</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <img src="/static/img/soshinetechbg/indexpic2.png" alt="">
+                      <div class="carousel-caption">
+                        <div class="index-slide-text">
+                          <h3>航拍图像自动校准</h3>
+                          <h3>航拍图像数据整理</h3>
+                          <h3>航拍图像数据提取</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <img src="/static/img/soshinetechbg/indexpic3.png" alt="">
+                      <div class="carousel-caption">
+                        <div class="index-slide-text">
+                          <h3>大数据人工智能处理</h3>
+                          <h3>专家系统自动化分析</h3>
+                          <h3>可视化结果展现推送</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div> <a class="left carousel-control" href="#carousel-index" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-index" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-2 column">
+        </div>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
