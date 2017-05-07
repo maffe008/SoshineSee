@@ -8,13 +8,13 @@ from account.models import User
 
 
 class UserForm(forms.Form):
-    username = forms.CharField(label='用户名', max_length=100)
-    password = forms.CharField(label='密码', widget=forms.PasswordInput())
-    email = forms.EmailField(label='电子邮件')
-    phone = forms.CharField(label='联系电话')
-    domain = forms.CharField(label='客户领域')
-    vip = forms.BooleanField(label='是否为重点长期合作客户')
-    clientname = forms.CharField(label='客户名称', max_length=100)
+    username = forms.CharField(label=u'用户名', max_length=100)
+    password = forms.CharField(label=u'密码', widget=forms.PasswordInput())
+    email = forms.EmailField(label=u'电子邮件')
+    phone = forms.CharField(label=u'联系电话')
+    domain = forms.CharField(label=u'客户领域')
+    vip = forms.BooleanField(label=u'是否为重点长期合作客户')
+    clientname = forms.CharField(label=u'客户名称', max_length=100)
 
 
 def register(request):
@@ -46,8 +46,8 @@ def register(request):
 
 
 class UserFormLogin(forms.Form):
-    username = forms.CharField(label='用户名', max_length=100)
-    password = forms.CharField(label='密码', widget=forms.PasswordInput())
+    username = forms.CharField(label=u'用户名', max_length=100)
+    password = forms.CharField(label=u'密码', widget=forms.PasswordInput())
 
 
 def login(request):
@@ -78,7 +78,7 @@ def index(request):
     clientname = ""
     if user:
         domain = user[0].domain
-        clientname = "欢迎回来，" + user[0].clientname
+        clientname = u"欢迎回来，" + user[0].clientname
         hasuser = True
     else:
         hasuser = False
