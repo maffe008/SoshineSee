@@ -22,6 +22,13 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+    $("#dataToggle").click(function(){
+        $("#dataBar").toggle();
+        $(this).toggleClass("ToggleLogoLayer");
+    });
+});
+
+$(document).ready(function(){
     $("#listToggle").click(function(){
         $("#listBar").toggle();
         $(this).toggleClass("ToggleLogoEtc");

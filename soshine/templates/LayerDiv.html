@@ -1,0 +1,87 @@
+<div class="panel-group" id="accordion">
+
+    <div class="panel-optionBar">
+        <div class="panel-heading">
+            <span id="NC_choose" class="check-box glyphicon glyphicon-check" ></span>
+            NC
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOption-NC">
+                <span class="glyphicon glyphicon-th-large" style="float: right"></span>
+            </a>
+        </div>
+        <div id="collapseOption-NC" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="option-info">无人机航拍7cm分辨率可见光图像</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-optionBar">
+        <div class="panel-heading">
+            <span id="NDVI_choose" class="check-box glyphicon glyphicon-unchecked"></span>
+            NDVI
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOption-NDVI">
+                <span class="glyphicon glyphicon-th-large" style="float: right"></span>
+            </a>
+        </div>
+        <div id="collapseOption-NDVI" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="option-info">归一化植被覆盖指数（Normalized Difference Vegetation Index，缩写NDVI）对比从植物叶子反射的红光和近红外波段。应用于检测植被生长状态、植被覆盖度等。</div>
+                <div id="slider-NDVI">
+                    <p>
+                      <label for="amount">范围：</label>
+                      <input type="text" id="amount" style="border:0; color:#f6931f; background-color:transparent; font-weight:bold;">
+                    </p>
+
+                    <div id="slider-range"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+
+    <div class="panel-optionBar">
+        <div class="panel-heading">
+            <span id="CIR_choose" class="check-box glyphicon glyphicon-unchecked" onclick="CIR_onclick()"></span>
+            CIR
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOption-CIR">
+                <span class="glyphicon glyphicon-th-large" style="float: right"></span>
+            </a>
+        </div>
+        <div id="collapseOption-CIR" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="option-info">伪彩色红外线图（Colored Infrared，缩写CIR）复合近红外光谱，红色和绿色波段。健康的植被有高水平的近红外，并显示红色。休眠的植被通常是绿色或褐色，而沙质土壤出现浅褐色和粘土暗褐色或蓝绿色的土壤。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-optionBar">
+        <div class="panel-heading">
+            <span id="Thermal_choose" class="check-box glyphicon glyphicon-unchecked" onclick="Thermal_onclick()"></span>
+            Thermal
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOption-Thermal">
+                <span class="glyphicon glyphicon-th-large" style="float: right"></span>
+            </a>
+        </div>
+        <div id="collapseOption-Thermal" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="option-info">热成像（Thermal Image）是通过非接触探测红外能量（热量），并将其转换为可显示的图像。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-optionBar">
+        <div class="panel-heading">
+            <span id="DSM_choose" class="check-box glyphicon glyphicon-unchecked" onclick="DSM_onclick()"></span>
+            DSM
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOption-DSM">
+                <span class="glyphicon glyphicon-th-large" style="float: right"></span>
+            </a>
+        </div>
+        <div id="collapseOption-DSM" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="option-info">数字地表模型（Digital Surface Model，缩写DSM）是指在地形本身高程信息外，还包含地表建筑物、桥梁和树木等高度的地面高程模型。</div>
+            </div>
+        </div>
+    </div>
+    -->
+</div>

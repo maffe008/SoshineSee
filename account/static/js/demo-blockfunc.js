@@ -16,6 +16,107 @@ function Demo_focus_Comprt(area,block,comprt){
     }
 }
 
+function change_intro(id){
+    if (id == 'BL' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'block' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+    else if(id == 'BL_0001' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'block' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+    else if(id == 'BL_0002' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'block' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+    else if(id == 'BL_0001_0001' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'block' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+    else if(id == 'BL_0001_0002' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'block' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+    else if(id == 'BL_0001_0003' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'block' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+    else if(id == 'BL_0002_0001' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'block' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+    else if(id == 'BL_0002_0002' ) {
+        document.getElementById("sysintro").style.display = 'none' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'block' ;
+    }
+    else{
+        document.getElementById("sysintro").style.display = 'block' ;
+        document.getElementById("Aintro").style.display = 'none' ;
+        document.getElementById("Bintro0001").style.display = 'none' ;
+        document.getElementById("Bintro0002").style.display = 'none' ;
+        document.getElementById("Cintro00010001").style.display = 'none' ;
+        document.getElementById("Cintro00010002").style.display = 'none' ;
+        document.getElementById("Cintro00010003").style.display = 'none' ;
+        document.getElementById("Cintro00020001").style.display = 'none' ;
+        document.getElementById("Cintro00020002").style.display = 'none' ;
+    }
+}
 
 function show_comprt_info(Bid) {
 

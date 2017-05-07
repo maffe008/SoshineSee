@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
 	<title>设置地图显示范围</title>
 
     {% load static %}
@@ -14,8 +15,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/somap.css' %}" />
 
 
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=NccogPfKH2hGdsARVdK7lsVvNao7Y4Hm"></script>
-	<script type="text/javascript" src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=6a1f1e70483a2dc9efa4bfcbfb15c109"></script>
+
+    <!-- UI组件库 1.0 -->
+    <script src="//webapi.amap.com/ui/1.0/main.js"></script>
+
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/jquery-ui.js' %}"></script>
@@ -26,20 +32,66 @@
 
 </head>
 <body>
+    {% include 'DataDiv.html' %}
 	<div id="allmap"></div>
-    {% include 'OptionDiv.html' %}
-    <h1>{{ abc_id }}|{{ abc_name }}</h1>
 </body>
 </html>
 <script type="text/javascript">
-	//百度地图API功能
-	var map = new BMap.Map("allmap");
-	map.centerAndZoom(new BMap.Point(116.404, 39.915), 13);
-	map.enableScrollWheelZoom();
-	var b = new BMap.Bounds(new BMap.Point(116.027143, 39.772348),new BMap.Point(116.832025, 40.126349));
-	try {
-		BMapLib.AreaRestriction.setBounds(map, b);
-	} catch (e) {
-		alert(e);
-	}
+    var wsp = new AMap.LngLat({{ img_w|safe }},{{ img_s|safe }});
+    var enp = new AMap.LngLat({{ img_e|safe }},{{ img_n|safe }});
+    var gpscenterP = new AMap.LngLat({{ centerPlng|safe }},{{ centerPlat|safe }});
+    var ps = [wsp,enp,gpscenterP];
+     AMap.convertFrom(ps, "gps", function(status, result) {
+        //alert(result.locations[0]+","+result.locations[1]+","+result.locations[2]);
+        var map = new AMap.Map('allmap', {
+            resizeEnable: true,
+            zoom:{{ zoom|safe }},
+            center: result.locations[2],
+            expandZoomRange: true,
+            zooms: [3,20]
+        });
+        map.setMapStyle("dark");
+        AMapUI.loadUI(['control/BasicControl'], function(BasicControl) {
+            //缩放控件，显示Zoom值
+            map.addControl(new BasicControl.Zoom({
+                position: 'rb',
+                showZoomNum: true
+            }));
+            //图层切换控件
+            map.addControl(new BasicControl.LayerSwitcher({
+                position: 'rt'
+            }));
+        });
+        /*
+        */
+        //单击获取点击的经纬度
+        map.on('click', function(e) {
+            alert('['+e.lnglat.getLng()+','+e.lnglat.getLat()+']');
+        });
+        var bounds = new AMap.Bounds(result.locations[0],result.locations[1]),
+        groundImageOpts = {
+            opacity: 1,   //图片透明度
+            clickable: true,//图片相应鼠标点击事件，默认：false
+            map: map     //图片叠加的地图对象
+        };
+
+        var groundImage = new AMap.GroundImage({{ NCurl|safe }}, bounds, groundImageOpts);
+
+        var NDVI_choose = document.getElementById("NDVI_choose");
+        NDVI_choose.addEventListener("click",show_ndvi);
+        function show_ndvi(){
+            if (NDVI_choose.className == "check-box glyphicon glyphicon-unchecked"){
+                NDVI_choose.className ='check-box glyphicon glyphicon-check';
+                var groundImagendvi = new AMap.GroundImage({{ NDVIurl|safe }}, bounds, groundImageOpts);
+            }else if(NDVI_choose.className == "check-box glyphicon glyphicon-check"){
+                NDVI_choose.className ='check-box glyphicon glyphicon-unchecked';
+                var groundImage = new AMap.GroundImage({{ NCurl|safe }}, bounds, groundImageOpts);
+            }else{
+                alert("NDVI_choose ERROR");
+            }
+        }
+
+    });
+
 </script>
+
