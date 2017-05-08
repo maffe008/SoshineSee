@@ -336,7 +336,11 @@
                 []
         ];
         var block_BL_0002 = [
-                []
+            [114.19144, 23.13209],
+            [114.19407, 23.13109],
+            [114.19512, 23.12992],
+            [114.19284, 23.1268],
+            [114.19198, 23.12645]
         ];
 	    var Comprt_BL_00010001 = [
             [114.19974, 23.12347],
@@ -595,7 +599,7 @@
                 rings: [cur_block]
             });
             var trees = Math.round(Math.random()*1000)+1500;
-            var ill_trees = Math.round(Math.random()*100);
+            var ill_trees = Math.round(Math.random()*10);
             var pertemp = Math.round((ill_trees/trees)*100)/100;
             var nwp = cur_comprt[0],sep = cur_comprt[2];
             //alert(nwp+"|"+nwp[0]+","+nwp[1]);
@@ -983,25 +987,45 @@
         });
 
         on(dojo.query("#Demo_Comprt_Boluo_A_01_loc"), "click", function() {
+            mainView.goTo({position: [114.20075, 23.12321,500], heading: 0, tilt: 0});
             add_polygon_comprt(block_BL_0001,Comprt_BL_00010001,"博罗县罗阳镇","A","01");
             show_comprt_info('A01');
+            add_ill_tree(114.201, 23.12307);
+            add_ill_tree(114.20057, 23.12306);
+            add_ill_tree(114.19991, 23.12343);
+            add_ill_tree(114.20025, 23.12305);
+            add_ill_tree(114.20058, 23.12373);
+            add_ill_tree(114.20084, 23.12343);
+            add_ill_tree(114.20076, 23.12274);
         });
         on(dojo.query("#Demo_Comprt_Boluo_A_02_loc"), "click", function() {
+            mainView.goTo({position: [114.20046, 23.12244,500], heading: 0, tilt: 0});
             add_polygon_comprt(block_BL_0001,Comprt_BL_00010002,"博罗县罗阳镇","A","02");
             show_comprt_info('A02');
+            add_ill_tree(114.19987, 23.12238);
+            add_ill_tree(114.20029, 23.12267);
+            add_ill_tree(114.20091, 23.12235);
         });
         on(dojo.query("#Demo_Comprt_Boluo_A_03_loc"), "click", function() {
+            mainView.goTo({position: [114.1992, 23.12193 ,500], heading: 0, tilt: 0});
             add_polygon_comprt(block_BL_0001,Comprt_BL_00010003,"博罗县罗阳镇","A","03");
             show_comprt_info('A03');
+            add_ill_tree(114.19856, 23.1218);
         });
 
         on(dojo.query("#Demo_Comprt_Boluo_B_01_loc"), "click", function() {
+            mainView.goTo({position: [114.1927, 23.12885 ,500], heading: 0, tilt: 0});
             add_polygon_comprt(block_BL_0002,Comprt_BL_00020001,"博罗县罗阳镇","B","01");
             show_comprt_info('B01');
+            add_ill_tree(114.19265, 23.12909);
         });
         on(dojo.query("#Demo_Comprt_Boluo_B_02_loc"), "click", function() {
+            mainView.goTo({position: [114.19235, 23.12759 ,500], heading: 0, tilt: 0});
             add_polygon_comprt(block_BL_0002,Comprt_BL_00020002,"博罗县罗阳镇","B","02");
             show_comprt_info('B02');
+            add_ill_tree(114.19176, 23.12826);
+            add_ill_tree(114.19192, 23.12826);
+            add_ill_tree(114.19213, 23.1282);
         });
 
 
