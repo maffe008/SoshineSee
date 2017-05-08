@@ -18,7 +18,7 @@ def sogis(request):
 
 class IllTree:
 
-    def __init__(self,index,lng,lat,area,count):
+    def __init__(self, index, lng, lat, area, count):
         self.index = index
         self.lng = lng
         self.lat = lat
@@ -34,14 +34,14 @@ def somap(request, param1):
     nswe = abc_id_to_abc_imgloc(abc_id)
     (NCurl, NDVIurl) = abc_id_to_abc_imgurl(abc_id)
 
-    illtreecount = random.randint(15,50)
+    illtreecount = random.randint(15, 50)
     illtrees = []
     for i in range(0, illtreecount):
         num = random.randint(5, 100)
-        aindex = i,
-        lng = round(random.uniform(float(nswe[1]), float(nswe[0])), 6),
-        lat = round(random.uniform(float(nswe[2]), float(nswe[3])), 6),
-        area = num*random.randint(1, 5),
+        aindex = i
+        lng = round(random.uniform(float(nswe[1]), float(nswe[0])), 6)
+        lat = round(random.uniform(float(nswe[2]), float(nswe[3])), 6)
+        area = num*random.randint(1, 5)
         count = num
         a_illtree = IllTree(aindex, lng, lat, area, count)
         illtrees.append(a_illtree)

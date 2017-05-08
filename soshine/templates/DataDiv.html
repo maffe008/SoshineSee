@@ -9,7 +9,7 @@
             <table border="1" width="100%">
                 <tr><th>ID</th><th>经纬度</th><th>范围</th><th>株数</th></tr>
                 {% for tree in illtrees %}
-                     <tr><td>{{ tree.index }}</td><td>{{ tree.lng }},{{ tree.lat }}</td><td>{{ tree.area }}ha</td><td>{{ tree.count }}</td></tr>
+                     <tr><td>{{ tree.index }}</td><td>{{ tree.lng }},{{ tree.lat }}</td><td>{{ tree.area }} ha</td><td>{{ tree.count }}</td></tr>
                 {% endfor %}
             </table>
         </div>
