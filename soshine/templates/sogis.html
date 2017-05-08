@@ -1302,7 +1302,7 @@
                var x = Math.round(evt.mapPoint.longitude * 100000)/100000;
                var y = Math.round(evt.mapPoint.latitude * 100000)/100000;
                var z = Math.round(evt.mapPoint.z * 100)/100;
-               document.getElementById("curcordDiv").innerHTML = '鼠标单击位置：经纬度 [' + x + ', ' + y + '], 海拔' + z + 'm';
+               document.getElementById("curloc").innerHTML = '鼠标单击位置：经纬度 [' + x + ', ' + y + '], 海拔' + z + 'm';
            }
         });
 
@@ -1335,7 +1335,7 @@
     </div>
     {% include 'InfoDiv.html' %}
     <div id="curcordDiv">
-        <p>鼠标单击位置：经纬度( ---.----, ---.---- ), 海拔---.--m</p>
+        <p id="curloc">鼠标单击位置：经纬度( ---.----, ---.---- ), 海拔---.--m</p>
     </div>
     <div id="overviewDiv">
         <div id="extentDiv"></div>

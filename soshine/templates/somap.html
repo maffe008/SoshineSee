@@ -37,8 +37,10 @@
 </body>
 </html>
 <script type="text/javascript">
-    var wsp = new AMap.LngLat({{ img_w|safe }},{{ img_s|safe }});
-    var enp = new AMap.LngLat({{ img_e|safe }},{{ img_n|safe }});
+
+    var imgnswe = {{ img_nswe|safe }};
+    var wsp = new AMap.LngLat(imgnswe[2],imgnswe[1]);
+    var enp = new AMap.LngLat(imgnswe[3],imgnswe[0]);
     var gpscenterP = new AMap.LngLat({{ centerPlng|safe }},{{ centerPlat|safe }});
     var ps = [wsp,enp,gpscenterP];
      AMap.convertFrom(ps, "gps", function(status, result) {
@@ -50,7 +52,7 @@
             expandZoomRange: true,
             zooms: [3,20]
         });
-        map.setMapStyle("light");
+        map.setMapStyle("fresh");
         AMapUI.loadUI(['control/BasicControl'], function(BasicControl) {
             //缩放控件，显示Zoom值
             map.addControl(new BasicControl.Zoom({

@@ -1,6 +1,8 @@
 #-*- coding: UTF-8 -*-
 from django.shortcuts import render
 import json
+import random
+import math
 # Create your views here.
 
 
@@ -14,13 +16,35 @@ def sogis(request):
     return render(request, 'sogis.html', {'gisname': gisname})
 
 
+class IllTree:
+
+    def __init__(self,index,lng,lat,area,count):
+        self.index = index
+        self.lng = lng
+        self.lat = lat
+        self.area = area
+        self.count = count
+
+
 def somap(request, param1):
 
     abc_id = param1
     abc_name = abc_id_to_abc_name(abc_id)
     (centerPlng, centerPlat, zoom) = abc_id_to_abc_centerP(abc_id)
-    (n, s, w, e) = abc_id_to_abc_imgloc(abc_id)
+    nswe = abc_id_to_abc_imgloc(abc_id)
     (NCurl, NDVIurl) = abc_id_to_abc_imgurl(abc_id)
+
+    illtreecount = random.randint(15,50)
+    illtrees = []
+    for i in range(0, illtreecount):
+        num = random.randint(5, 100)
+        aindex = i,
+        lng = round(random.uniform(float(nswe[1]), float(nswe[0])), 6),
+        lat = round(random.uniform(float(nswe[2]), float(nswe[3])), 6),
+        area = num*random.randint(1, 5),
+        count = num
+        a_illtree = IllTree(aindex, lng, lat, area, count)
+        illtrees.append(a_illtree)
 
     return render(request, 'somap.html', {
         'abc_id': abc_id,
@@ -28,12 +52,10 @@ def somap(request, param1):
         'centerPlng': json.dumps(centerPlng),
         'centerPlat': json.dumps(centerPlat),
         'zoom': json.dumps(zoom),
-        'img_n': json.dumps(n),
-        'img_s': json.dumps(s),
-        'img_w': json.dumps(w),
-        'img_e': json.dumps(e),
+        'img_nswe': json.dumps(nswe),
         'NCurl': json.dumps(NCurl),
-        'NDVIurl': json.dumps(NDVIurl)
+        'NDVIurl': json.dumps(NDVIurl),
+        'illtrees': illtrees,
     })
 
 
