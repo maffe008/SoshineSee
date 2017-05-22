@@ -76,7 +76,7 @@
             clickable: true,//图片相应鼠标点击事件，默认：false
             map: map     //图片叠加的地图对象
         };
-
+        map.setLimitBounds(bounds);
         var groundImage = new AMap.GroundImage({{ NCurl|safe }}, bounds, groundImageOpts);
 
         var NDVI_choose = document.getElementById("NDVI_choose");

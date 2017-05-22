@@ -76,6 +76,7 @@ def abc_id_to_abc_name(argument):
         '500010003': "示例小班00010003",
         '500020001': "示例小班00020001",
         '500020002': "示例小班00020002",
+        '500020003': "示例小班00020003",
     }
     return switcher.get(argument, "nothing")
 
@@ -86,7 +87,7 @@ def abc_id_to_abc_centerP(argument):
         '2': "106.649726",
         '3': "121.582007",
         '4': "120.486218",
-        '5': "114.19348",
+        '5': "114.19709",
         '6': "126.745324",
         '7': "87.509639",
         '8': "114.848022",
@@ -97,6 +98,7 @@ def abc_id_to_abc_centerP(argument):
         '500010003': "114.19927",
         '500020001': "114.19264",
         '500020002': "114.19237",
+        '500020003': "114.19417",
     }
     switcherlat = {
         '1': "49.2171",
@@ -114,23 +116,25 @@ def abc_id_to_abc_centerP(argument):
         '500010003': "23.12192",
         '500020001': "23.12883",
         '500020002': "23.12758",
+        '500020003': "23.12981",
     }
     switcherzoom = {
         '1': "12",
         '2': "12",
         '3': "12",
         '4': "12",
-        '5': "16",
+        '5': "18",
         '6': "12",
         '7': "12",
         '8': "12",
-        '50001': "18",
-        '50002': "18",
+        '50001': "19",
+        '50002': "19",
         '500010001': "20",
         '500010002': "20",
         '500010003': "20",
         '500020001': "20",
         '500020002': "20",
+        '500020003': "20",
     }
     return switcherlng.get(argument, "116.358"), \
            switcherlat.get(argument, "40"), \
@@ -141,42 +145,46 @@ def abc_id_to_abc_imgloc(argument):
     switchernorth = {
         '5': "23.130875",
         '50001': "23.12440317",
-        '50002': "23.1308756",
+        '50002': "23.13087565",
         '500010001': "23.12440317",
         '500010002': "23.12298",
         '500010003': "23.12278505",
         '500020001': "23.12967",
         '500020002': "23.128448",
+        '500020003': "23.13019885",
     }
     switchersouth = {
         '5': "23.121167",
         '50001': "23.12116692",
-        '50002': "23.1260213",
+        '50002': "23.12602129",
         '500010001': "23.12224568",
         '500010002': "23.12203",
         '500010003': "23.121166927",
         '500020001': "23.12805",
         '500020002': "23.1260213",
+        '500020003': "23.12899526",
     }
     switcherwest = {
         '5': "114.191878",
         '50001': "114.1981759",
-        '50002': "114.191877",
+        '50002': "114.1918776",
         '500010001': "114.199575",
         '500010002': "114.19974",
         '500010003': "114.1981759",
         '500020001': "114.191877",
         '500020002': "114.191877",
+        '500020003': "114.1936271",
     }
     switchereast = {
         '5': "114.202375",
         '50001': "114.2023747",
-        '50002': "114.193977",
+        '50002': "114.1971262",
         '500010001': "114.2023747",
         '500010002': "114.20105",
         '500010003': "114.2009751",
         '500020001': "114.193977",
         '500020002': "114.193977",
+        '500020003': "114.1953767",
     }
     return switchernorth.get(argument, "23"),\
            switchersouth.get(argument, "23"),\
@@ -188,22 +196,24 @@ def abc_id_to_abc_imgurl(argument):
     switchernc = {
         '5': "/static/img/Areaimg/BL_nc.png",
         '50001': "/static/img/Blockimg/BL_0001_nc.png",
-        '50002': "/static/img/Blockimg/BL_0002_nc.png",
+        '50002': "/static/img/Blockimg/BLWN_nc_1_00.png",
         '500010001': "/static/img/Compartmentimg/BL_0001_0001_nc.png",
         '500010002': "/static/img/Compartmentimg/BL_0001_0002_nc.png",
         '500010003': "/static/img/Compartmentimg/BL_0001_0003_nc.png",
         '500020001': "/static/img/Compartmentimg/BL_0002_0001_nc.png",
         '500020002': "/static/img/Compartmentimg/BL_0002_0002_nc.png",
+        '500020003': "/static/img/Compartmentimg/BL_0002_0003_nc.png",
     }
     switcherndvi = {
         '5': "/static/img/Areaimg/BL_ndvi.png",
         '50001': "/static/img/Blockimg/BL_0001_ndvi.png",
-        '50002': "/static/img/Blockimg/BL_0002_ndvi.png",
+        '50002': "/static/img/Blockimg/BLWN_ndvi_1_00.png",
         '500010001': "/static/img/Compartmentimg/BL_0001_0001_ndvi.png",
         '500010002': "/static/img/Compartmentimg/BL_0001_0002_ndvi.png",
         '500010003': "/static/img/Compartmentimg/BL_0001_0003_ndvi.png",
         '500020001': "/static/img/Compartmentimg/BL_0002_0001_ndvi.png",
         '500020002': "/static/img/Compartmentimg/BL_0002_0002_ndvi.png",
+        '500020003': "/static/img/Compartmentimg/BL_0002_0003_ndvi.png",
     }
     return switchernc.get(argument, "/static/img/default.png"),\
            switcherndvi.get(argument, "/static/img/default.png")
