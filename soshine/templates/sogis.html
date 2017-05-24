@@ -865,6 +865,10 @@
         ];
 
         var area_Hulbr = [[],[],[],[]];
+        var Hulbr_T = [[119.99,49.40],[120.35,49.40],[120.35,49.29],[119.99,49.29]];
+        var Hulbr_X = [[119.747,49.38],[119.986,49.38],[119.986,49.274],[119.747,49.274]];
+
+
         var Hulbr_A = [[ 119.97408, 49.17459],[120.00475, 49.17413],[120.00112, 49.15657],[ 119.97302, 49.16003]];
         var Hulbr_B = [
             [119.63182, 49.37831],[119.66089, 49.38212],[119.66009, 49.38741],[ 119.69207, 49.38984 ],
@@ -1116,7 +1120,6 @@
         });
 
 
-
         on(dojo.query("#Demo_Area_Zhangjk_loc"), "click", function() {
             mainView.goTo({position: [114.92863,40.7802,2000], heading: 0, tilt: 70});
             add_polygon_area(area_ZJK);
@@ -1139,11 +1142,17 @@
         });
 
 
-
-
         on(dojo.query("#Demo_Area_Hulbr_loc"), "click", function() {
             mainView.goTo({position: [ 119.76421, 48.698,20000], heading: 0, tilt: 70});
             add_polygon_area(area_Hulbr);
+        });
+        on(dojo.query("#Demo_Area_Hulbr_T_outline"), "click", function() {
+            mainView.goTo({position: [120.14892, 49.34812,50000], heading: 0, tilt: 0});
+            add_polygon_block(Hulbr_T);
+        });
+        on(dojo.query("#Demo_Area_Hulbr_X_outline"), "click", function() {
+            mainView.goTo({position: [119.91127, 49.29892,50000], heading: 0, tilt: 0});
+            add_polygon_block(Hulbr_X);
         });
         on(dojo.query("#Demo_Area_Hulbr_A_outline"), "click", function() {
             mainView.goTo({position: [120.00231, 49.166,10000], heading: 0, tilt: 0});
@@ -1410,7 +1419,6 @@
               }
           });
         }
-
     });
 
     </script>
