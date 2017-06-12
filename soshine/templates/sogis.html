@@ -577,7 +577,7 @@
                 color: [255, 0, 0, 0.5],
                 outline: {
                     color: [255, 0, 0],
-                    width: 5
+                    width: 2
                 }
             });
             var temp_polygon_block = new Polygon({
@@ -595,7 +595,7 @@
                 color: [255, 255, 0, 0.5],
                 outline: {
                     color: [255, 255, 0],
-                    width: 5
+                    width: 2
                 }
             });
             var temp_polygon_block = new Polygon({
@@ -607,6 +607,27 @@
             });
 
             mainView.graphics.add(temp_polygonGraphic_block);
+        }
+        function add_polygon_block_ok(cur_block){
+            var fillSymbol_block_warn = new SimpleFillSymbol({
+                color: [10, 255, 10, 0.3],
+                outline: {
+                    color: [255, 255, 255],
+                    width: 2
+                }
+            });
+            var temp_polygon_block = new Polygon({
+                rings: [cur_block]
+            });
+            var temp_polygonGraphic_block = new Graphic({
+                geometry: temp_polygon_block,
+                symbol: fillSymbol_block_warn
+            });
+
+            mainView.graphics.add(temp_polygonGraphic_block);
+        }
+        function remove_polygon_all(){
+            mainView.graphics.removeAll();
         }
         function add_polygon_block_500(cur_block){
             var fillSymbol_block_warn = new SimpleFillSymbol({
@@ -865,15 +886,75 @@
         ];
 
         var area_Hulbr = [[],[],[],[]];
-        var Hulbr_T = [[119.99,49.40],[120.35,49.40],[120.35,49.29],[119.99,49.29]];
-        var Hulbr_X = [[119.747,49.38],[119.986,49.38],[119.986,49.274],[119.747,49.274]];
-
-
-        var Hulbr_A = [[ 119.97408, 49.17459],[120.00475, 49.17413],[120.00112, 49.15657],[ 119.97302, 49.16003]];
-        var Hulbr_B = [
-            [119.63182, 49.37831],[119.66089, 49.38212],[119.66009, 49.38741],[ 119.69207, 49.38984 ],
-            [ 119.69843, 49.3657],[119.70175, 49.36576],[119.70366, 49.35665],[119.69965, 49.35658],
-            [119.69974, 49.35361], [119.67302, 49.35187],[ 119.67284, 49.35004],[ 119.63957, 49.34895]
+        var Hulbr_T = [
+           [120.07245, 49.58269], [119.89758, 49.51155], [120.12378, 49.44103], [120.14865, 49.34821], [120.36725, 49.32732],  [120.46371, 49.46929],
+                 [120.76697, 49.65737],  [120.63626, 49.71756],  [120.53262, 49.61698],  [120.22015, 49.56395]
+        ];
+        var Hulbr_X = [
+			[119.8371, 49.37238], [119.89758, 49.51155], [120.12378, 49.44103], [120.14865, 49.34821], [120.20254, 49.29668],
+			[120.1571, 49.19456], [120.09322, 49.19692], [120.04235, 49.26148], [119.86629, 49.28059]
+        ];
+        var Hulbr_X_01 = [
+            [120.10229, 49.28213], [120.12448, 49.28228], [120.12145, 49.30233], [120.12915, 49.30368], [120.16373, 49.30282],
+            [120.16721, 49.29819], [120.18127, 49.30053], [120.19518, 49.29867], [120.19893, 49.28847], [120.16717, 49.26126],
+            [120.1393, 49.25947], [120.13327, 49.27679], [120.105, 49.27357]
+        ];
+        var Hulbr_X_01_ng_01 = [
+            [120.13643, 49.27924], [120.14499, 49.28059], [120.14537, 49.27992], [120.14502, 49.27944], [120.13684, 49.27809]
+        ];
+        var Hulbr_X_01_ng_02 = [
+            [120.13701, 49.27221], [120.13734, 49.27278], [120.13818, 49.2726], [120.13837, 49.27186], [120.138, 49.27153],
+            [120.13713, 49.27181]
+        ];
+        var Hulbr_X_01_ng_03 = [
+            [120.17155, 49.27458], [120.17224, 49.27488], [120.17276, 49.27466], [120.17289, 49.27402], [120.17243, 49.27378],
+            [120.17164, 49.27409]
+        ];
+        var Hulbr_X_01_ng_04 = [
+            [120.16012, 49.27244],  [120.16095, 49.27242], [120.16118, 49.27184], [120.16039, 49.27161]
+        ];
+        var Hulbr_X_01_ng_05 = [
+            [120.1633, 49.27321],  [120.16415, 49.27363],  [120.16488, 49.27374], [120.16513, 49.27289], [120.16402, 49.27278]
+        ];
+        var Hulbr_X_01_ng_06 = [
+            [120.17402, 49.27533], [120.17433, 49.27573], [120.17535, 49.27582], [120.17601, 49.27554], [120.17622, 49.27501],
+            [120.17547, 49.27449], [120.17413, 49.27499]
+        ];
+        var Hulbr_X_01_warn_01 = [
+            [120.13583, 49.27564], [120.13735, 49.27607], [120.13783, 49.27527], [120.13742, 49.27457], [120.13599, 49.27534]
+        ];
+        var Hulbr_X_01_warn_02 = [
+            [120.16607, 49.27521], [120.16791, 49.27513], [120.16822, 49.27413], [120.16772, 49.2738], [120.16644, 49.27433]
+        ];
+        var Hulbr_X_02 = [
+			[120.08365, 49.21532], [120.08618, 49.22488], [120.09692, 49.23284], [120.10468, 49.23314], [120.12356, 49.22719],
+			[120.13205, 49.23155], [120.13873, 49.23137], [120.15146, 49.2263], [120.15416, 49.21162], [120.14757, 49.21002],
+            [120.14983, 49.20379], [120.13146, 49.19925], [120.1112, 49.19688], [120.09793, 49.19829]
+        ];
+        var Hulbr_X_02_ng_01 = [
+            [120.12555, 49.22227], [120.13963, 49.22456], [120.14218, 49.21414],  [120.12796, 49.21266]
+        ];
+        var Hulbr_X_02_warn_01 = [
+             [120.12909, 49.21269], [120.13593, 49.2134],   [120.13834, 49.20433], [120.13153, 49.20367]
+        ];
+        var Hulbr_X_03 = [
+			[119.99632, 49.31827], [119.99754, 49.32092], [120.04242, 49.33583], [120.07303, 49.29549],
+			[120.04149, 49.28475], [120.03449, 49.28536], [120.01686, 49.29166]
+        ];
+        var Hulbr_X_03_ng_01 = [
+            [120.03296, 49.32354], [120.03587, 49.32448], [120.03829, 49.32092], [120.03535, 49.31996]
+        ];
+        var Hulbr_X_03_ng_02 = [
+            [120.04237, 49.31849], [120.05224, 49.32188], [120.05495, 49.31843], [120.04492, 49.31513]
+        ];
+        var Hulbr_X_03_ng_03 = [
+            [120.03508, 49.29518], [120.0451, 49.29855], [120.04575, 49.2977], [120.0356, 49.2944]
+        ];
+        var Hulbr_X_03_warn_01 = [
+            [120.03538, 49.3199], [120.04015, 49.3215], [120.04218, 49.31856], [120.03744, 49.31696]
+        ];
+        var Hulbr_X_03_warn_02 = [
+            [120.03197, 49.29818], [120.04256, 49.30173], [120.0451, 49.29855], [120.03508, 49.29518], [120.03427, 49.29651]
         ];
 
 
@@ -1147,20 +1228,53 @@
             add_polygon_area(area_Hulbr);
         });
         on(dojo.query("#Demo_Area_Hulbr_T_outline"), "click", function() {
-            mainView.goTo({position: [120.14892, 49.34812,50000], heading: 0, tilt: 0});
-            add_polygon_block(Hulbr_T);
+            mainView.goTo({position: [120.45509, 49.53203,100000], heading: 0, tilt: 0});
+            add_polygon_area(Hulbr_T);
         });
+
         on(dojo.query("#Demo_Area_Hulbr_X_outline"), "click", function() {
-            mainView.goTo({position: [119.91127, 49.29892,50000], heading: 0, tilt: 0});
-            add_polygon_block(Hulbr_X);
+            mainView.goTo({position: [119.91127, 49.29892,100000], heading: 0, tilt: 0});
+            add_polygon_area(Hulbr_X);
         });
-        on(dojo.query("#Demo_Area_Hulbr_A_outline"), "click", function() {
-            mainView.goTo({position: [120.00231, 49.166,10000], heading: 0, tilt: 0});
-            add_polygon_block(Hulbr_A);
+        on(dojo.query("#Demo_Comprt_Hulbr_X_01_loc"), "click", function() {
+            mainView.goTo({position: [120.15175, 49.27933,10000], heading: 0, tilt: 0});
+            add_polygon_block(Hulbr_X_01);
         });
-        on(dojo.query("#Demo_Area_Hulbr_B_outline"), "click", function() {
-            mainView.goTo({position: [119.66502, 49.36744,10000], heading: 0, tilt: 0});
-            add_polygon_block(Hulbr_B);
+        on(dojo.query("#Demo_Comprt_Hulbr_X_01_info"), "click", function() {
+            remove_polygon_all();
+            add_polygon_block_ok(Hulbr_X_01);
+            add_polygon_block_warn(Hulbr_X_01_warn_01);
+            add_polygon_block_warn(Hulbr_X_01_warn_02);
+            add_polygon_block_ng(Hulbr_X_01_ng_01);
+            add_polygon_block_ng(Hulbr_X_01_ng_02);
+            add_polygon_block_ng(Hulbr_X_01_ng_03);
+            add_polygon_block_ng(Hulbr_X_01_ng_04);
+            add_polygon_block_ng(Hulbr_X_01_ng_05);
+            add_polygon_block_ng(Hulbr_X_01_ng_06);
+        });
+        on(dojo.query("#Demo_Comprt_Hulbr_X_02_loc"), "click", function() {
+            mainView.goTo({position: [120.12776, 49.21268,10000], heading: 0, tilt: 0});
+            add_polygon_block(Hulbr_X_02);
+        });
+        on(dojo.query("#Demo_Comprt_Hulbr_X_02_info"), "click", function() {
+            remove_polygon_all();
+            add_polygon_block_ok(Hulbr_X_02);
+            add_polygon_block_warn(Hulbr_X_02_warn_01);
+            add_polygon_block_ng(Hulbr_X_02_ng_01);
+
+        });
+        on(dojo.query("#Demo_Comprt_Hulbr_X_03_loc"), "click", function() {
+            mainView.goTo({position: [120.03562, 49.30868,10000], heading: 0, tilt: 0});
+            add_polygon_block(Hulbr_X_03);
+        });
+        on(dojo.query("#Demo_Comprt_Hulbr_X_03_info"), "click", function() {
+            remove_polygon_all();
+            add_polygon_block_ok(Hulbr_X_03);
+            add_polygon_block_warn(Hulbr_X_03_warn_01);
+            add_polygon_block_warn(Hulbr_X_03_warn_02);
+            add_polygon_block_ng(Hulbr_X_03_ng_01);
+            add_polygon_block_ng(Hulbr_X_03_ng_02);
+            add_polygon_block_ng(Hulbr_X_03_ng_03);
         });
 
 

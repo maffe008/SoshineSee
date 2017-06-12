@@ -2,7 +2,7 @@
 <div class="panel-group blocklist" id="panel-blocklist">
     <div class="blocklist-heading-Area">
         <a href="{% url 'soshine:somap' 1 %}" target="_blank"><span id="Demo_Area_Hulbr" class="glyphicon glyphicon-map-marker" onclick="" style="cursor: pointer"></span></a>
-        <span id="Demo_Area_Hulbr_loc" style="cursor: pointer">呼伦贝尔农垦</span>
+        <span id="Demo_Area_Hulbr_loc" onclick="change_intro('Hulbr')" style="cursor: pointer">呼伦贝尔农垦</span>
         <span class="glyphicon glyphicon-chevron-down" data-toggle="collapse" data-parent="#listBar"
               data-target="#panel-element-demo-Hulbr"  style="float: right;cursor: pointer"></span>
     </div>
@@ -10,36 +10,41 @@
     <div id="panel-element-demo-Hulbr" class="panel-collapse collapse">
         <div class="blocklist-heading" >
             <span id="Demo_Area_Hulbr_T" class="glyphicon glyphicon-map-marker" onclick=""></span>
-            <span id="Demo_Area_Hulbr_T_outline">呼伦贝尔农垦特泥河农牧场</span>
+            <span id="Demo_Area_Hulbr_T_outline" onclick="change_intro('Hulbr_T')">呼伦贝尔农垦特泥河农牧场</span>
             <span class="glyphicon glyphicon-chevron-down" data-toggle="collapse" data-parent="#panel-blocklist"
                   data-target="#panel-element-demo-Hulbr_T" style="float: right"></span>
         </div>
         <div id="panel-element-demo-Hulbr_T" class="panel-collapse collapse">
             <div id="Demo_Comprt_Hulbr_T_01" class="Blockname panel-body" >
-                <span id="Demo_Comprt_Hulbr_T_01_loc" class="glyphicon glyphicon-map-marker" style="cursor: pointer"></span>
-                区划01|农场A
+                <span id="Demo_Comprt_Hulbr_T_01_info" class="glyphicon glyphicon-th-list" style="cursor: pointer"></span>
+                <span id="Demo_Comprt_Hulbr_T_01_loc" style="cursor: pointer">特泥河四队</span>
             </div>
             <div id="Demo_Comprt_Hulbr_T_02" class="Blockname panel-body">
-                <span id="Demo_Comprt_Hulbr_T_02_loc" class="glyphicon glyphicon-map-marker" style="cursor: pointer"></span>
-                区划02|农场B
+                <span id="Demo_Comprt_Hulbr_T_02_info" class="glyphicon glyphicon-th-list" style="cursor: pointer"></span>
+                <span id="Demo_Comprt_Hulbr_T_02_loc" style="cursor: pointer">特泥河七队</span>
             </div>
         </div>
         <div class="blocklist-heading" >
             <span id="Demo_Area_Hulbr_X" class="glyphicon glyphicon-map-marker" onclick=""></span>
-            <span id="Demo_Area_Hulbr_X_outline">呼伦贝尔农垦谢尔塔拉农牧场</span>
+            <span id="Demo_Area_Hulbr_X_outline" onclick="change_intro('Hulbr_X')">呼伦贝尔农垦谢尔塔拉农牧场</span>
             <span class="glyphicon glyphicon-chevron-down" data-toggle="collapse" data-parent="#panel-blocklist"
                   data-target="#panel-element-demo-Hulbr_X" style="float: right"></span>
         </div>
         <div id="panel-element-demo-Hulbr_X" class="panel-collapse collapse">
             <div id="Demo_Comprt_Hulbr_X_01" class="Blockname panel-body" >
-                <span id="Demo_Comprt_Hulbr_X_01_loc" class="glyphicon glyphicon-map-marker" style="cursor: pointer"></span>
-                区划01|农场A
+                <span id="Demo_Comprt_Hulbr_X_01_info" class="glyphicon glyphicon-th-list" style="cursor: pointer"> </span>
+                <span id="Demo_Comprt_Hulbr_X_01_loc" style="cursor: pointer">谢尔塔拉一队</span>
             </div>
             <div id="Demo_Comprt_Hulbr_X_02" class="Blockname panel-body">
-                <span id="Demo_Comprt_Hulbr_X_02_loc" class="glyphicon glyphicon-map-marker" style="cursor: pointer"></span>
-                区划02|农场B
+                <span id="Demo_Comprt_Hulbr_X_02_info" class="glyphicon glyphicon-th-list" style="cursor: pointer"> </span>
+                <span id="Demo_Comprt_Hulbr_X_02_loc" style="cursor: pointer">谢尔塔拉二队</span>
+            </div>
+            <div id="Demo_Comprt_Hulbr_X_03" class="Blockname panel-body">
+                <span id="Demo_Comprt_Hulbr_X_03_info" class="glyphicon glyphicon-th-list" style="cursor: pointer"> </span>
+                <span id="Demo_Comprt_Hulbr_X_03_loc" style="cursor: pointer">谢尔塔拉三队</span>
             </div>
         </div>
+        <!--
         <div class="blocklist-heading" >
             <span id="Demo_Area_Hulbr_A" class="glyphicon glyphicon-map-marker" onclick=""></span>
             <span id="Demo_Area_Hulbr_A_outline">呼伦贝尔农垦地块A</span>
@@ -72,6 +77,7 @@
                 区划04|农场D
             </div>
         </div>
+        -->
     </div>
 </div>
 
