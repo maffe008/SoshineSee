@@ -14,3 +14,8 @@ $(function() {
     $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 )/100 +
         " - " + $( "#slider-range" ).slider( "values", 1 )/100 );
 });
+
+
+$(function () {
+    $("[data-toggle='tooltip']").tooltip();
+});
