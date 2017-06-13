@@ -1,23 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>用户注册</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}" />
+    <title>注册页面</title>
+    <link rel="shortcut icon" href="http://www.soshinetech.com/favicon.ico">
 </head>
-    <style type="text/css">
-        body{color:#efd;background:#453;padding:0 5em;margin:0}
-        h1{padding:2em 1em;background:#675}
-        h2{color:#bf8;border-top:1px dotted #fff;margin-top:2em}
-        p{margin:1em 0}
-    </style>
 <body>
-    <h1>注册页面：</h1>
-    <form method = 'post' enctype="multipart/form-data">
-        {{uf.as_p}}
-        <input type="submit" value = "ok" />
-    </form>
-    <br>
-    <a href="http://127.0.0.1:8000/account/login/">已有账户</a>
+<div class="container" id="register_container">
+    <div class="row clearfix" id="register_clearfix">
+        <div class="col-md-4 column">
+        </div>
+        <div class="col-md-4 column">
+            <div class="jumbotron" id="register_frame">
+                <h1 class="text-center" style="margin-bottom: 40px">SoshineSee</h1>
+                <h2 class="text-center">精准农林飞行与数据服务</h2>
+                <br>
+                <form method = 'post' enctype="multipart/form-data">
+                    {{uf.as_p}}
+                    <input type="submit" value = "注册" />
+                </form>
+                <br>
+                <a href="http://127.0.0.1:8000/account/login/">已有账户</a>
+            </div>
+        </div>
+        <div class="col-md-4 column">
+        </div>
+    </div>
+</div>
 </body>
 </html>

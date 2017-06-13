@@ -1,0 +1,28 @@
+div#login_container{
+    background-image: url(../img/soshinetechbg/indexbg.png);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+div#login_clearfix{
+    margin: 0;
+    padding-top: 5%;
+
+}
+div#login_frame{
+    height: 600px;
+    width: 80%;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: right;
+    background-color: rgba(0,0,0,0.3);
+    color: #f1f2f2;
+}
+label{
+    font-size: 16px;
+}
+input{
+    width: 80%;
+    color: #2b2b2b;
+}
