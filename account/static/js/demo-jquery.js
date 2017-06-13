@@ -72,3 +72,14 @@ $(document).ready(function(){
         $(this).css({"background-color":"transparent","color":"#f1f2f2","font-weight":"normal"})
     });
 });
+
+$(document).ready(function(){
+    $(".glyphicon").mouseover(function(){
+        $(this).css({"color":"#ff8c00"})
+    });
+});
+$(document).ready(function(){
+    $(".glyphicon").mouseout(function(){
+        $(this).css({"color":"#f1f2f2"})
+    });
+});
